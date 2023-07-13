@@ -7,7 +7,7 @@ from flask_restx import Api, Resource
 import requests
 import logging
 
-
+# this py file is just count number and temporary result for test
 portnumber = "http://127.0.0.1:5502"
 logging.basicConfig(level=logging.INFO)
 
@@ -17,7 +17,6 @@ def progressRun (user_id, declaration, progress):
 
     res = {
         'progress': progress,
-        'result': "9"
     }
 
     response = requests.post(url, json=res)
@@ -46,9 +45,11 @@ class runPy(Resource):
             logging.info(str(i*10)+"%")
 
         j = random.random()
-        data = {
-            'result': f"{int(j * 2)}"
-        }
+                k = random.random()
+                data = {
+                    'voiceResult': f"{int(j * 2)}",
+                    'mfccResult': f"{int(k * 2)}"
+                }
 
         requests.post(url, json=data)
         return jsonify(data)

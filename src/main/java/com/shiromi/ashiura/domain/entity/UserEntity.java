@@ -52,6 +52,9 @@ public class UserEntity implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(rating));
         }
         return authorities;
+        // rating을 ","로 구분해서 리스트로 정렬후 권한확인
+        // 아래는 소스였던 List타입의 rating을 사용하는 코드들
+
 //        return this.rating.stram()
 //                 .map(SimpleGrantedAuthority::new)
 //                 .collect(Collectors.toList());

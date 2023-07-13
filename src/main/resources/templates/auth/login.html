@@ -20,29 +20,30 @@
         <button type="submit" class=>Login</button>
     </form>
 
-    <script>
-    function login() {
-      const form = document.getElementById('loginForm');
-      const userName = document.getElementById('userName').value;
-      const password = document.getElementById('password').value;
-
-      const data = {
-        userName: userName,
-        password: password,
-      };
-
-      const jsonData = JSON.stringify(data);
-
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/auth/login');
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(jsonData);
-    }
-    </script>
-
     <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
 
+
+<!--    <script>-->
+<!--document.cookie = "how=dude";-->
+<!--alert (document.cookie);-->
+
+<!--function setCookie(key, value, expiredays) {-->
+
+<!--    let todayDate = new Date();-->
+<!--    todayDate.setDate(todayDate.getDate() + expiredays); // 현재 시각 + 일 단위로 쿠키 만료 날짜 변경-->
+<!--    //todayDate.setTime(todayDate.getTime() + (expiredays * 24 * 60 * 60 * 1000)); // 밀리세컨드 단위로 쿠키 만료 날짜 변경-->
+<!--    document.cookie = key + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";-->
+<!--}-->
+<!--    </script>-->
+
 <!--    "btn btn-primary block full-width m-b"-->
+
+<!--    <script type="text/javascript" src="../../static/js/addCookie.js"></script>-->
+<!--    <script type="text/javascript" src="/resourcess/static/js/addCookie.js?v=1"></script>-->
+<!--        <script type="text/javascript" src="/static/js/addCookie.js"></script>-->
+
+
+
 
 </body>
 </html>

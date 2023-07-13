@@ -17,8 +17,21 @@
         <h4></h4>
         <a href="/test/addVoi">통화 테이블에 임시 데이터 추가하기</a>
         <h4></h4>
+        <a href="/api/VoiClaReq">py로 음성파일 전달</a>
+        <h4></h4>
+<!--        <button type="submit" class=>토큰으로 인증 후 전달</button>-->
+<!--            <form th:action="@{/api/VoiClaReq}"-->
+<!--                  role="form" action="#" id="postForm" method="get" >-->
+                <th:block th:if="${token != null}">
+                    <div th:text="${token.accessToken}"></div>
+                </th:block>
+<!--            </form>-->
+            <h4></h4>
+            <div th:text="${cookie}"></div>
 
-        <div></div>
+
+        <h4></h4>
+
         <div th:text="@{${@environment.getProperty('url.py')} + ''}"></div>
         <div th:text="@{${@environment.getProperty('url.api')} + ''}"></div>
         <div th:text="@{${@environment.getProperty('url.app')} + ''}"></div>

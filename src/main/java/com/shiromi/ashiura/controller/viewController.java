@@ -57,6 +57,10 @@ public class viewController {
         return "test/add_voice_data";
     }
 
-
+    @GetMapping("/api/VoiClaReq")
+    public String VoiceClientRequest() {
+        log.info("Get: {}", urlApi + "/api/VoiClaReq");
+        return "api/VoiClaReq";
+    }
 
 }

@@ -35,6 +35,7 @@ public class UserDomain {
                 .rating(rating)
                 .build();
     }
+
 //    public void login(Password rawPassword, PasswordEncoder passwordEncoder) {
 //        this.password.matchPassword(rawPassword, passwordEncoder)
 //    }

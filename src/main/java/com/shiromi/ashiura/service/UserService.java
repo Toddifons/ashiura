@@ -9,7 +9,6 @@ import com.shiromi.ashiura.domain.dto.request.UserLoginRequest;
 import com.shiromi.ashiura.domain.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -40,11 +39,15 @@ public class UserService {
                 authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         //3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenInfo tokenInfo = jwtProvider.generateToken(authentication);
+
         return tokenInfo;
     }
 
+    //유저를 DB에 저장
     public String userSave(UserDomain userDomain) {
-
+        if (userDomain.getRating() == null) {
+            userDomain.setRating("N");
+        }// Rating이 설정되지 않았을 경우 디폴트값을 주듯이 "N"으로 set
 //        UserEntity user = UserEntity.builder()
 //                .userName(userDomain.getUserName())
 //                .password(BCrypt.hashpw(

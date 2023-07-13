@@ -28,7 +28,7 @@ public class WebSecurityConfigure {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","/auth/*").permitAll() //권한 유무따지지 않고 모두 접근
+                .antMatchers("/","/auth/*","/api/*").permitAll() //권한 유무따지지 않고 모두 접근
                 .antMatchers("/view/*").hasRole("N") //해당 권한을 가진 경우
                 .antMatchers("/test/*").hasRole("Y")
                 .anyRequest().authenticated()

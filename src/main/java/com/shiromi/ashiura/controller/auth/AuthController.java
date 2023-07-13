@@ -8,13 +8,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.net.URI;
+import java.net.URISyntaxException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,16 +37,47 @@ public class AuthController {
     }
 
     @PostMapping("/loginForm")
-    public ResponseEntity<?> loginForm(UserLoginRequest userLoginRequestXML) {
+    public ModelAndView loginForm(UserLoginRequest userLoginRequestXML) throws URISyntaxException {
         log.info("Post: {}", urlApi + "/auth/loginForm");
         log.info("data: {}", userLoginRequestXML.toString());
+
         TokenInfo tokenInfo = userService.userLogin(userLoginRequestXML);
-        return ResponseEntity
-                .created(URI.create(urlApi + "/view/info"))
-                .header("Authorization",
-                        tokenInfo.getGrantType() +" "+ tokenInfo.getAccessToken())
+        //쿠키 생성
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenInfo.getRefreshToken())
+                .maxAge(86400)
+                .path("/")
+                .secure(true)
+                .sameSite("None")
+//                .httpOnly(true)
                 .build();
+
+        ModelAndView model = new ModelAndView("home");
+        model.addObject("token",tokenInfo);
+        model.addObject("cookie",cookie);
+
+        return model;
+
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .header("Authorization",
+//                        tokenInfo.getGrantType() +" "+ tokenInfo.getAccessToken())
+//                .header("Location",urlApi + "/view/info")
+//                .header("Set-Cookie",cookie.toString())
+//                .body(tokenInfo);
     }
+
+    // Authorized 헤더에 AccessToken 값이 없거나 헤더에 대한 정보가 없는 경우
+    // AccessToken이 유효하지 않은 토큰인 경우
+    // AccessToken의 시간이 만료된 경우
+
+    // AccessToken이 만료되지 않았을 때 RefreshToken을 사용해 재발급 받는 경우는 해당 공격자가 탈취를 한경우라고 판단 두 토믄을 모두 만료시키는 방식
+    // RefreshToken이 cooke에 존재하지 않는경우
+    // RefreshToken으로 DB에 유저정보를 검색하는데, 이 토큰을 가지고 있는 사용자가 없는경우
+    // RefreshToken이 유효하지 않은 토큰인 경우
+    // RefreshToken의 시간이 만료된 경우
+
+    // 이거 사실 프론트가 해야 될 일이 아닐까?
+    // 자바스크립트로 localStorage에 set 해야 페이지 이동시 쿠키가 소실 되지 않음, 프론트 일 맞는듯
 
     @PostMapping("/signup")
     public ResponseEntity<?> save(@RequestBody UserDomain userDomain) {

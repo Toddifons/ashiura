@@ -66,7 +66,7 @@ public class WebClientFileService {
                 .retrieve()
                 .bodyToMono(Void.class)
                 .doOnError(e -> log.error("Err :", e));
-        ;
+
 //                .toEntity(Void.class)
 //                .doOnError(e -> log.error("Err :",e));
 //                .subscribe();
