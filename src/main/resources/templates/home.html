@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    </script>
+    <head>
+        <title>home shit home</title>
+    </head>
+    <body>
+        <a href="/auth/signup">회원가입</a>
+        <h4></h4>
+        <a href="/auth/login">로그인</a>
+        <h4></h4>
+        <a href="/view/info">회원이 신고한 목록</a>
+        <h4></h4>
+        <a href="/view/loading">로딩창 테스트</a>
+        <h4></h4>
+
+        <h4>dev</h4>
+        <h4></h4>
+        <a href="/test/addVoi">통화 테이블에 임시 데이터 추가하기</a>
+        <h4></h4>
+
+        <div></div>
+        <div th:text="@{${@environment.getProperty('url.py')} + ''}"></div>
+        <div th:text="@{${@environment.getProperty('url.api')} + ''}"></div>
+        <div th:text="@{${@environment.getProperty('url.app')} + ''}"></div>
+    </body>
+</html>
+

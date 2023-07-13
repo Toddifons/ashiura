@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+  <title>view</title>
+</head>
+<body>
+
+
+<h3>신고 목록</h3>
+<form class="m-v" role="form" th:action="@{/info/user}"
+      action="#" id="infoForm" method="post">
+  <input type="text"  name="userName" id="userName"
+         class="form-control" placeholder="userName" required="required"/>
+
+  <button type="submit" class=>Request</button>
+</form>
+
+
+
+  <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
+</body>
+</html>
