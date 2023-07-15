@@ -10,60 +10,58 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("auth")
+@Controller
 public class AuthController {
     private final UserService userService;
 
     @Value("${url.api}")
     private String urlApi;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequestJson) {
-        log.info("Post: {}", urlApi + "/auth/login");
-        log.info("data: {}", userLoginRequestJson);
-        TokenInfo tokenInfo = userService.userLogin(userLoginRequestJson);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    // 로그인 뷰 띄우기
+    @GetMapping("/auth/loginForm")
+    public String login() {
+        log.info("View: {}", urlApi + "/auth/login");
+        return "auth/loginForm";
     }
-
-    @PostMapping("/loginForm")
-    public ModelAndView loginForm(UserLoginRequest userLoginRequestXML) throws URISyntaxException {
+    // 회원가입 뷰 띄우기
+    @GetMapping("/auth/signup")
+    public String signup() {
+        log.info("View: {}", urlApi + "/auth/signup");
+        return "auth/signup";
+    }
+    //웹에서 로그인 요청 처리하는 메소드
+    @PostMapping("/auth/loginForm")
+    public String loginForm(UserLoginRequest userLoginRequestXML, HttpServletResponse response) throws URISyntaxException {
         log.info("Post: {}", urlApi + "/auth/loginForm");
         log.info("data: {}", userLoginRequestXML.toString());
 
         TokenInfo tokenInfo = userService.userLogin(userLoginRequestXML);
         //쿠키 생성
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", tokenInfo.getRefreshToken())
-                .maxAge(86400)
+        ResponseCookie cookie = ResponseCookie.from(tokenInfo.getGrantType(), tokenInfo.getAccessToken())
+                .maxAge(3600)
                 .path("/")
-                .secure(true)
-                .sameSite("None")
-//                .httpOnly(true)
+                .secure(false) // https가 아니면 쿠키 저장 안함 실제 배포시에는 https를 써서 데이터 암호화를 해야 보안이슈가 생길 가능성이 없다
+                .sameSite("Lax") //서드파티 보안문제
+                .httpOnly(true) //CSS취약점 문제
                 .build();
 
-        ModelAndView model = new ModelAndView("home");
-        model.addObject("token",tokenInfo);
-        model.addObject("cookie",cookie);
+        log.info(cookie.toString());
+        response.addHeader("Set-Cookie",cookie.toString());
 
-        return model;
+        return "/justwait";
 
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .header("Authorization",
-//                        tokenInfo.getGrantType() +" "+ tokenInfo.getAccessToken())
-//                .header("Location",urlApi + "/view/info")
-//                .header("Set-Cookie",cookie.toString())
-//                .body(tokenInfo);
     }
 
     // Authorized 헤더에 AccessToken 값이 없거나 헤더에 대한 정보가 없는 경우
@@ -71,7 +69,7 @@ public class AuthController {
     // AccessToken의 시간이 만료된 경우
 
     // AccessToken이 만료되지 않았을 때 RefreshToken을 사용해 재발급 받는 경우는 해당 공격자가 탈취를 한경우라고 판단 두 토믄을 모두 만료시키는 방식
-    // RefreshToken이 cooke에 존재하지 않는경우
+    // RefreshToken이 cookie에 존재하지 않는경우
     // RefreshToken으로 DB에 유저정보를 검색하는데, 이 토큰을 가지고 있는 사용자가 없는경우
     // RefreshToken이 유효하지 않은 토큰인 경우
     // RefreshToken의 시간이 만료된 경우
@@ -79,24 +77,15 @@ public class AuthController {
     // 이거 사실 프론트가 해야 될 일이 아닐까?
     // 자바스크립트로 localStorage에 set 해야 페이지 이동시 쿠키가 소실 되지 않음, 프론트 일 맞는듯
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> save(@RequestBody UserDomain userDomain) {
-        log.info("post: {}", urlApi + "/auth/signup");
-        log.info("UsDo: {}", userDomain.toString());
-        log.info("save: {}", userService.userSave(userDomain));
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(userDomain.toString());
-    }
-
-    @PostMapping("/signupForm")
-    public ResponseEntity<?> saveForm(UserDomain userDomain) {
+    @PostMapping("/auth/signupForm")
+    public String saveForm(UserDomain userDomain) {
         log.info("post: {}", urlApi + "/auth/signupForm");
         log.info("UsDo: {}", userDomain.toString());
         log.info("save: {}", userService.userSave(userDomain));
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(userDomain.toString());
+        return "/auth/login";
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(userDomain.toString());
     }
 
 

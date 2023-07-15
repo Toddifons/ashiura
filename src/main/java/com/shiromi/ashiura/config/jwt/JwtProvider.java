@@ -103,4 +103,7 @@ public class JwtProvider {
             return e.getClaims();
         }
     }
+    public String showClaims (String accessToken) {
+       return parseClaims(accessToken).getSubject();
+    }
 }

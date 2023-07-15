@@ -11,7 +11,9 @@ import java.util.Optional;
 public interface VoiceDataRepository extends JpaRepository<VoiceDataEntity,Long> {
 
 //    Optional<VoiceDataEntity> findByUserName(String userName);
-    List<VoiceDataEntity> findByUserName(String userName);
+    List<VoiceDataEntity> findByUserNameOrderByCreatedDateDesc(String userName);
+
+    List<VoiceDataEntity> findTop10ByUserNameOrderByCreatedDateDesc(String userName);
 
     Optional<VoiceDataEntity> findByDeclaration(String declaration);
 }

@@ -2,6 +2,7 @@ package com.shiromi.ashiura.config;
 
 import com.shiromi.ashiura.config.jwt.JwtAuthenticationFilter;
 import com.shiromi.ashiura.config.jwt.JwtProvider;
+import com.shiromi.ashiura.exception.WebAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfigure {
 
     private final JwtProvider jwtProvider;
+    private final WebAccessDeniedHandler webAccessDeniedHandler;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,12 +31,15 @@ public class WebSecurityConfigure {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","/auth/*","/api/*").permitAll() //권한 유무따지지 않고 모두 접근
                 .antMatchers("/view/*").hasRole("N") //해당 권한을 가진 경우
                 .antMatchers("/test/*").hasRole("Y")
+                .antMatchers("/**").permitAll() //권한 유무따지지 않고 모두 접근
                 .anyRequest().authenticated()
                 .and()
+                .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 

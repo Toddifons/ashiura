@@ -40,7 +40,7 @@ public class VoiceDataService {
 //    }
 
     public List<VoiceDataEntity> findByUserNameAll(String userName) {
-        return voiceDataRepository.findByUserName(userName);
+        return voiceDataRepository.findTop10ByUserNameOrderByCreatedDateDesc(userName);
     }
 
 

@@ -1,4 +1,4 @@
-package com.shiromi.ashiura.controller;
+package com.shiromi.ashiura.controller.api;
 
 import com.shiromi.ashiura.domain.dto.response.ResultResponseDTO;
 import com.shiromi.ashiura.service.restTemplate.FileService;

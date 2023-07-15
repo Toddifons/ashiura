@@ -1,14 +1,22 @@
 package com.shiromi.ashiura.controller;
 
+import com.shiromi.ashiura.config.jwt.JwtProvider;
+import com.shiromi.ashiura.domain.entity.VoiceDataEntity;
 import com.shiromi.ashiura.service.LoadingService;
+import com.shiromi.ashiura.service.UserService;
+import com.shiromi.ashiura.service.VoiceDataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.IOException;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -16,37 +24,59 @@ import java.io.IOException;
 public class viewController {
 
     private final LoadingService loadingService;
+    private final JwtProvider jwtProvider;
+    private final UserService userService;
+    private final VoiceDataService voiceDataService;
+
 
     @Value("${url.api}")
     private String urlApi;
 
     @GetMapping("/")
-    public String home()   {
+    public String home(
+            @CookieValue(value = "Bearer", required = false) String token,
+            Model model)   {
         log.info("View: {}", urlApi + "/");
+        if (token != null) {
+            log.info("token: {}",token);
+            String user = jwtProvider.showClaims(token);
+            model.addAttribute("userName", user);
+            return "home";
+        }
+        model.addAttribute("userName","plz login");
         return "home";
     }
 
-    @GetMapping("/auth/login")
-    public String login() {
-        log.info("View: {}", urlApi + "/auth/login");
-        return "auth/login";
-    }
-
-    @GetMapping("/auth/signup")
-    public String signup() {
-        log.info("View: {}", urlApi + "/auth/signup");
-        return "auth/signup";
-    }
     @GetMapping("/view/info")
-    public String view_user_info() {
-        log.info("Get: {}", urlApi + "/view/user_info");
+    public String view_user_info(
+            @CookieValue(value = "Bearer", required = false) String token,
+            Model model) {
+        log.info("View: {}", urlApi + "/view/info");
+        if (token != null) {
+            String user = jwtProvider.showClaims(token);
+            List<VoiceDataEntity> voiceData = voiceDataService.findByUserNameAll(user);
+
+            log.info("list: {}",voiceData.toString());
+
+            for (VoiceDataEntity data: voiceData) {
+                log.info("data: {}",data.getDeclaration());
+                log.info("data: {}",data.getDisData());
+                log.info("data: {}",data.getCreatedDate());
+            }
+
+
+            model.addAttribute("userName", user);
+            model.addAttribute("voiceData", voiceData);
+
+            return "view/user_info";
+        }
         return "view/user_info";
     }
 
     @GetMapping("/view/loading")
-    public String view_loading(Model model) {
+    public String view_loading(Model model) throws InterruptedException {
         log.info("Get: {}", urlApi + "/view/loading");
-        model.addAttribute("result",loadingService.showLoading());
+        model.addAttribute("result",loadingService.showLoadingView());
 
         return "view/Loading";
     }
@@ -57,10 +87,15 @@ public class viewController {
         return "test/add_voice_data";
     }
 
-    @GetMapping("/api/VoiClaReq")
+    @GetMapping("/test/VoiClaReq")
     public String VoiceClientRequest() {
-        log.info("Get: {}", urlApi + "/api/VoiClaReq");
+        log.info("Get: {}", urlApi + "/Test/VoiClaReq");
         return "api/VoiClaReq";
+    }
+
+    @GetMapping("/err/denied-page")
+    public String accessDenied(){
+        return "err/denied";
     }
 
 }

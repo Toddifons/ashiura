@@ -15,21 +15,37 @@ public class LoadingService {
     @Value("${url.api}")
     private String urlApi;
 
-    public void nowLoading(ResultResponseDTO resultRes, String userName,String declaration) {
-        log.info("_______:{}",resultRes);
+    public void nowLoading(ResultResponseDTO resultRes, String userName, String declaration) throws InterruptedException {
+        log.info("_______:{}", resultRes);
         resultRes.setUserName(userName);
         resultRes.setDeclaration(declaration);
         this.resultDTO = resultRes;
         log.info("progress: {},{},{}",
-                resultDTO.getProgress(),resultDTO.getVoiceResult(),resultDTO.getMfccResult());
+                resultDTO.getProgress(), resultDTO.getVoiceResult(), resultDTO.getMfccResult());
+        if (resultDTO.getProgress().equals("100%")) {
+            Thread.sleep(3000);
+        }
 //        log.info("progress: {},{}",
 //                resultDTO.getProgress(),resultDTO.getResult());
     }
 
-    public ResultResponseDTO showLoading() {
+    public String showLoading() throws InterruptedException {
+        log.info("load: {}", resultDTO);
+        if (resultDTO != null) {
+            if (resultDTO.getVoiceResult() != null) {
+                return resultDTO.getVoiceResult();
+            }
+        }
+        Thread.sleep(2400);
+        return null;
+    }
+
+
+
+    public ResultResponseDTO showLoadingView() {
         log.info("load: {}", resultDTO);
         return resultDTO;
-
+    }
 
 //        for (int i=0;i<101;i++) {
 //            Thread.sleep(1000);
@@ -45,8 +61,7 @@ public class LoadingService {
 //
 //            }
 
-
-    }
-
 }
+
+
 
