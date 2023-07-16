@@ -11,11 +11,14 @@
     <h4>신고할 녹음 내용과 위치와 아이디, 신고할 전화번호를 py에 던지기</h4>
     <input type="file" name="file">
 
-    <input type="text" name="userName" id="userName"
-           class="form-control" placeholder="userName" required="required"/>
+<!--    <input type="text" name="userName" id="userName"-->
+<!--           class="form-control" placeholder="userName" required="required"/>-->
+
+    <input type="hidden" name="userName" id="userName"
+           class="form-control" th:value="${userName}" required="required"/>
 
     <input type="tel" name="declaration" id="declaration"
-           class="form-control" placeholder="declaration" required="required"/>
+           class="form-control" placeholder="신고 할 전화번호" required="required"/>
 
     <input type="submit"/>
 

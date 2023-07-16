@@ -25,7 +25,6 @@ public class viewController {
 
     private final LoadingService loadingService;
     private final JwtProvider jwtProvider;
-    private final UserService userService;
     private final VoiceDataService voiceDataService;
 
 
@@ -56,15 +55,6 @@ public class viewController {
             String user = jwtProvider.showClaims(token);
             List<VoiceDataEntity> voiceData = voiceDataService.findByUserNameAll(user);
 
-            log.info("list: {}",voiceData.toString());
-
-            for (VoiceDataEntity data: voiceData) {
-                log.info("data: {}",data.getDeclaration());
-                log.info("data: {}",data.getDisData());
-                log.info("data: {}",data.getCreatedDate());
-            }
-
-
             model.addAttribute("userName", user);
             model.addAttribute("voiceData", voiceData);
 
@@ -87,9 +77,19 @@ public class viewController {
         return "test/add_voice_data";
     }
 
-    @GetMapping("/test/VoiClaReq")
-    public String VoiceClientRequest() {
+    @GetMapping("/view/VoiClaReq")
+    public String VoiceClientRequest(
+            @CookieValue(value = "Bearer", required = false) String token,
+            Model model
+    ) {
         log.info("Get: {}", urlApi + "/Test/VoiClaReq");
+        if (token != null) {
+            String user = jwtProvider.showClaims(token);
+            model.addAttribute("userName", user);
+
+            return "api/VoiClaReq";
+        }
+
         return "api/VoiClaReq";
     }
 

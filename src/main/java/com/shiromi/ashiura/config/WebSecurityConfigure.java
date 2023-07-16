@@ -39,7 +39,6 @@ public class WebSecurityConfigure {
                 .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
-
                 .build();
     }
 
