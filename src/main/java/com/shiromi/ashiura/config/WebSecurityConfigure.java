@@ -38,9 +38,14 @@ public class WebSecurityConfigure {
                 .and()
                 .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
+//                .logout()
+//                .clearAuthentication(true)
+//                .deleteCookies("Bearer")
+//                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
