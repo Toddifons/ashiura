@@ -38,10 +38,12 @@ public class WebSecurityConfigure {
                 .and()
                 .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
-//                .logout()
-//                .clearAuthentication(true)
-//                .deleteCookies("Bearer")
-//                .and()
+                .logout()
+                .logoutUrl("/auth/logout")
+                .clearAuthentication(true)
+                .deleteCookies("Bearer")
+                .logoutSuccessUrl("/auth/loginForm")
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

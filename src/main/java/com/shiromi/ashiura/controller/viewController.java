@@ -3,13 +3,12 @@ package com.shiromi.ashiura.controller;
 import com.shiromi.ashiura.config.jwt.JwtProvider;
 import com.shiromi.ashiura.domain.entity.VoiceDataEntity;
 import com.shiromi.ashiura.service.LoadingService;
-import com.shiromi.ashiura.service.UserService;
 import com.shiromi.ashiura.service.VoiceDataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -33,68 +32,86 @@ public class viewController {
 
     @GetMapping("/")
     public String home(
-            @CookieValue(value = "Bearer", required = false) String token,
+//            @CookieValue(value = "Bearer", required = false) String token,
+            @AuthenticationPrincipal User user,
             Model model)   {
         log.info("View: {}", urlApi + "/");
-        if (token != null) {
-            log.info("token: {}",token);
-            String user = jwtProvider.showClaims(token);
-            model.addAttribute("userName", user);
-            return "home";
+//        if (token != null) {
+//            log.info("token: {}",token);
+//            String user = jwtProvider.showClaims(token);
+        if (user != null) {
+            model.addAttribute("userName", user.getUsername());
+        } else {
+            model.addAttribute("userName", "unknown");
         }
-        model.addAttribute("userName","plz login");
         return "home";
     }
 
     @GetMapping("/view/info")
     public String view_user_info(
-            @CookieValue(value = "Bearer", required = false) String token,
+            @AuthenticationPrincipal User user,
             Model model) {
         log.info("View: {}", urlApi + "/view/info");
-        if (token != null) {
-            String user = jwtProvider.showClaims(token);
-            List<VoiceDataEntity> voiceData = voiceDataService.findByUserNameAll(user);
+        if (user != null) {
+            List<VoiceDataEntity> voiceData = voiceDataService.findByUserNameAll(user.getUsername());
 
-            model.addAttribute("userName", user);
+            model.addAttribute("userName", user.getUsername());
             model.addAttribute("voiceData", voiceData);
-
-            return "view/user_info";
+        } else {
+            model.addAttribute("userName", "unknown");
         }
         return "view/user_info";
     }
 
     @GetMapping("/view/loading")
-    public String view_loading(Model model) throws InterruptedException {
+    public String view_loading(
+            @AuthenticationPrincipal User user,
+            Model model) throws InterruptedException {
         log.info("Get: {}", urlApi + "/view/loading");
         model.addAttribute("result",loadingService.showLoadingView());
-
+        if (user != null) {
+            model.addAttribute("userName", user.getUsername());
+        } else {
+            model.addAttribute("userName", "unknown");
+        }
         return "view/Loading";
     }
 
     @GetMapping("/test/addVoi")
-    public String addVoiceData() {
+    public String addVoiceData(
+            @AuthenticationPrincipal User user,
+            Model model) {
         log.info("Get: {}", urlApi + "/test/add_voice_data");
+        if (user != null) {
+            model.addAttribute("userName", user.getUsername());
+        } else {
+            model.addAttribute("userName", "unknown");
+        }
         return "test/add_voice_data";
     }
 
     @GetMapping("/view/VoiClaReq")
     public String VoiceClientRequest(
-            @CookieValue(value = "Bearer", required = false) String token,
-            Model model
-    ) {
+            @AuthenticationPrincipal User user,
+            Model model) {
         log.info("Get: {}", urlApi + "/Test/VoiClaReq");
-        if (token != null) {
-            String user = jwtProvider.showClaims(token);
-            model.addAttribute("userName", user);
-
-            return "api/VoiClaReq";
+        if (user != null) {
+            model.addAttribute("userName", user.getUsername());
+        } else {
+            model.addAttribute("userName", "unknown");
         }
-
         return "api/VoiClaReq";
     }
 
     @GetMapping("/err/denied-page")
-    public String accessDenied(){
+    public String accessDenied(
+            @AuthenticationPrincipal User user,
+            Model model){
+        if (user != null) {
+            model.addAttribute("userName", user.getUsername());
+        } else {
+            model.addAttribute("userName", "unknown");
+        }
         return "err/denied";
     }
 

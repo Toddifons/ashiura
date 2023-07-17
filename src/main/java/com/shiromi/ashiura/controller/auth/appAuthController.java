@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +22,33 @@ public class appAuthController {
     private String urlApi;
 
     //앱에서 로그인 요청을 처리하는 API
+//    @PostMapping("/auth/login")
+//    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequestJson) {
+//        log.info("Post: {}", urlApi + "/auth/login");
+//        log.info("data: {}", userLoginRequestJson);
+//        TokenInfo tokenInfo = userService.userLogin(userLoginRequestJson);
+//        return ResponseEntity.status(HttpStatus.OK).build();
+//    }
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequestJson) {
         log.info("Post: {}", urlApi + "/auth/login");
         log.info("data: {}", userLoginRequestJson);
         TokenInfo tokenInfo = userService.userLogin(userLoginRequestJson);
-        return ResponseEntity.status(HttpStatus.OK).build();
+
+        ResponseCookie cookie = ResponseCookie.from(tokenInfo.getGrantType(), tokenInfo.getAccessToken())
+                .maxAge(3600)
+                .path("/")
+                .secure(false) // ture = url이 https가 아니면 쿠키 저장안하는 기능, 실제 배포시에는 https를 써서 데이터 암호화를 해야 보안이슈가 생길 가능성이 없다
+                .sameSite("Lax") //서드파티 보안문제
+                .httpOnly(true) // ture = JS가 읽어내지 못하게함,  CSS취약점 문제해결
+                .build();
+
+        log.info(cookie.toString());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(cookie);
     }
+
+
     @PostMapping("/auth/signup")
     public ResponseEntity<?> save(@RequestBody UserDomain userDomain) {
         log.info("post: {}", urlApi + "/auth/signup");

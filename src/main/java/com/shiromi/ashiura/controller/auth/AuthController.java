@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -29,14 +30,16 @@ public class AuthController {
 
     // 로그인 뷰 띄우기
     @GetMapping("/auth/loginForm")
-    public String login() {
+    public String login(Model model) {
         log.info("View: {}", urlApi + "/auth/login");
+        model.addAttribute("userName", "unknown");
         return "auth/loginForm";
     }
     // 회원가입 뷰 띄우기
     @GetMapping("/auth/signup")
-    public String signup() {
+    public String signup(Model model) {
         log.info("View: {}", urlApi + "/auth/signup");
+        model.addAttribute("userName", "unknown");
         return "auth/signup";
     }
     //웹에서 로그인 요청 처리하는 메소드
@@ -85,26 +88,26 @@ public class AuthController {
 //        return ResponseEntity.status(HttpStatus.OK)
 //                .body(userDomain.toString());
     }
-    @GetMapping("/auth/logout")
-    public String logout(
-            @CookieValue(value = "Bearer", required = false) String token,
-            HttpServletResponse response) {
-        log.info("logout: {}", urlApi + "/auth/logout");
-
-        ResponseCookie cookie = ResponseCookie.from("Bearer", token)
-                .maxAge(0)
-                .path("/")
-                .secure(false)
-                .sameSite("Lax")
-                .httpOnly(true)
-                .build();
-
-        log.info(cookie.toString());
-        response.addHeader("Set-Cookie",cookie.toString());
-
-
-        return "/justwait";
-    }
+//    @GetMapping("/auth/logout")
+//    public String logout(
+//            @CookieValue(value = "Bearer", required = false) String token,
+//            HttpServletResponse response) {
+//        log.info("logout: {}", urlApi + "/auth/logout");
+//
+//        ResponseCookie cookie = ResponseCookie.from("Bearer", token)
+//                .maxAge(0)
+//                .path("/")
+//                .secure(false)
+//                .sameSite("Lax")
+//                .httpOnly(true)
+//                .build();
+//
+//        log.info(cookie.toString());
+//        response.addHeader("Set-Cookie",cookie.toString());
+//
+//
+//        return "/justwait";
+//    }
 
 
 
