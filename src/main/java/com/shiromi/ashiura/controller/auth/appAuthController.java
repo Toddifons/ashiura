@@ -29,6 +29,9 @@ public class appAuthController {
 //        TokenInfo tokenInfo = userService.userLogin(userLoginRequestJson);
 //        return ResponseEntity.status(HttpStatus.OK).build();
 //    }
+
+    //앱에서 로그인 받는 부분 쿠키 반환으로 대체, 다만 토큰자체를 보낼껀지 쿠키로 포장해서 보낼껀지에 대한 조율 필요
+    //이후 신고 할때 아이디만 받는 부분도 그대로 가져갈지 아니면 토큰or쿠키를 실어서 보낼지 조율필요
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequestJson) {
         log.info("Post: {}", urlApi + "/auth/login");
@@ -48,7 +51,7 @@ public class appAuthController {
                 .body(cookie);
     }
 
-
+    //앱에서 회원가입 부분
     @PostMapping("/auth/signup")
     public ResponseEntity<?> save(@RequestBody UserDomain userDomain) {
         log.info("post: {}", urlApi + "/auth/signup");

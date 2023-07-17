@@ -33,7 +33,7 @@ public class viewController {
     @GetMapping("/")
     public String home(
 //            @CookieValue(value = "Bearer", required = false) String token,
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal User user, //url을 입력하면 스프링 시큐리티에서 헤더로 전달된 쿠키(토큰)을 읽어서 사용자를 확인하는데, 그 인증과정에서 사용한 객체를 주입함
             Model model)   {
         log.info("View: {}", urlApi + "/");
 //        if (token != null) {
@@ -46,7 +46,7 @@ public class viewController {
         }
         return "home";
     }
-
+    //신고 내역 뷰 반환
     @GetMapping("/view/info")
     public String view_user_info(
             @AuthenticationPrincipal User user,
@@ -62,7 +62,7 @@ public class viewController {
         }
         return "view/user_info";
     }
-
+    //로딩창 뷰 반환, 항상 STT변환이 제일 오래걸려서 40퍼에서 3분쯤 멍때릴듯
     @GetMapping("/view/loading")
     public String view_loading(
             @AuthenticationPrincipal User user,
@@ -76,7 +76,7 @@ public class viewController {
         }
         return "view/Loading";
     }
-
+    // 테스트용 통화 테이블데이터 추가 뷰 반환
     @GetMapping("/test/addVoi")
     public String addVoiceData(
             @AuthenticationPrincipal User user,
@@ -89,7 +89,7 @@ public class viewController {
         }
         return "test/add_voice_data";
     }
-
+    // 웹에서 신고하기 뷰 반환
     @GetMapping("/view/VoiClaReq")
     public String VoiceClientRequest(
             @AuthenticationPrincipal User user,
@@ -102,7 +102,7 @@ public class viewController {
         }
         return "api/VoiClaReq";
     }
-
+    // 접근 권한이 없는 사용자 튕구는 곳
     @GetMapping("/err/denied-page")
     public String accessDenied(
             @AuthenticationPrincipal User user,
