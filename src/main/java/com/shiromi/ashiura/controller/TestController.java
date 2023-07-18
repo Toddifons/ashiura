@@ -25,7 +25,7 @@ public class TestController {
     private String urlApi;
 
     //신고 내용을 보여주기 위해 통화테이블의 데이터를 임시로 추가하는 테스트용 API
-    @PostMapping("/voice_data/add")
+    @PostMapping("/test/voice_data/add")
     public ResponseEntity<?> save(VoiceDataDomain voiceDataDomain) {
         log.info("data:{}", voiceDataDomain.toString());
         String voiceData = voiceDataService.voiceDataSave(voiceDataDomain);

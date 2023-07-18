@@ -71,6 +71,6 @@ public class AuthController {
         log.info("UsDo: {}", userDomain.toString());
         log.info("save: {}", userService.userSave(userDomain));
 
-        return "/auth/login";
+        return "/auth/loginForm";
     }
 }

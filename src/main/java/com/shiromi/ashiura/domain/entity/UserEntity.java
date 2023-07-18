@@ -25,12 +25,12 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name= "username", length = 40, unique = true
+    @Column(name= "user_id", length = 40, unique = true
             ,updatable = false, nullable = false
     )
     private String userName;
 
-    @Column(name= "name", length =40)
+    @Column(name= "userName", length =40)
     private String name;
 
     @Column(name = "password", length = 60, nullable = false)
@@ -39,8 +39,14 @@ public class UserEntity implements UserDetails {
     @Column(name= "phone_number", length = 60)
     private String phoneNumber;
 
-    @Column(name = "rating", length = 1)
+    @Column(name = "role", length = 1)
     private String rating;
+
+    @Column(name = "provider")
+    private String provider;
+
+    @Column(name = "providerId")
+    private String providerId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,13 +60,16 @@ public class UserEntity implements UserDetails {
     }
 
     @Builder
-    public UserEntity(long id, String userName, String name, String password, String phoneNumber, String rating) {
+    public UserEntity(long id, String userName, String name, String password, String phoneNumber,
+                      String rating, String provider, String providerId) {
         this.id = id;
         this.userName = userName;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.rating = rating;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
 
@@ -71,6 +80,8 @@ public class UserEntity implements UserDetails {
                 .password(password)
                 .phoneNumber(phoneNumber)
                 .rating(rating)
+                .provider(provider)
+                .providerId(providerId)
                 .build();
     }
 
