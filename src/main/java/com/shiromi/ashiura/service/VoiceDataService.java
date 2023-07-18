@@ -17,10 +17,11 @@ public class VoiceDataService {
     private final VoiceDataRepository voiceDataRepository;
 
     public String voiceDataSave(VoiceDataDomain voiceDataDomain){
+
             log.info(voiceDataDomain.toString());
+
             VoiceDataEntity voiceData = VoiceDataEntity.builder()
                             .id(voiceDataDomain.getId())
-                            .userName(voiceDataDomain.getUserName())
                             .declaration(voiceDataDomain.getDeclaration())
                             .audioFile(voiceDataDomain.getAudioFile())
                             .content(voiceDataDomain.getContent())
@@ -32,6 +33,7 @@ public class VoiceDataService {
                             .mfcc(voiceDataDomain.getMfcc())
                             .modified_date(null)
                             .build();
+
         VoiceDataEntity savedVoiceData = voiceDataRepository.save(voiceData);
         log.info(savedVoiceData.toString());
 

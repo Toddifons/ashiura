@@ -25,27 +25,25 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name= "user_id", length = 40, unique = true
-            ,updatable = false, nullable = false
-    )
+    @Column(name= "user_id", unique = true, nullable = false)
     private String userName;
 
-    @Column(name= "userName", length =40)
+    @Column(name= "username")
     private String name;
 
-    @Column(name = "password", length = 60, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name= "phone_number", length = 60)
+    @Column(name= "phoneNumber")
     private String phoneNumber;
 
-    @Column(name = "role", length = 1)
+    @Column(name = "role")
     private String rating;
 
-    @Column(name = "provider")
+    @Column
     private String provider;
 
-    @Column(name = "providerId")
+    @Column
     private String providerId;
 
     @Override

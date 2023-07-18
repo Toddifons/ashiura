@@ -20,25 +20,19 @@ public class VoiceDataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name="user_id", length = 40)
-    private String userName;
-
-    @Column(name="declaration", length = 40)
-    private String declaration;
-
-    @Column(name="audio_file", length = 60)
+    @Column(name="audio_file", nullable = false)
     private String audioFile;
 
-    @Column(name="content", columnDefinition ="BLOB")
+    @Lob
     private String content;
 
-    @Column(name="disdata", length = 1, columnDefinition = "CHAR")
-    private String disData;
+    @Column(name="declaration")
+    private String declaration;
 
-    @Column(name="created_date", columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    private String createdDate;
+    @Column(name="disdata" )
+    private String disData;
 
     @Column(nullable = false)
     private String persent;
@@ -55,17 +49,24 @@ public class VoiceDataEntity {
     @Column(nullable = false)
     private String mfcc;
 
+    @Column(name="created_date", columnDefinition = "TIMESTAMP DEFAULT NOW()")
+    private LocalDate createdDate;
+
     //재학습된(수정된)날짜
     @Column
     private LocalDate modified_date;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idx")
+    private UserEntity user;
+
     @Builder
-    public VoiceDataEntity(long id, String userName, String declaration,
+    public VoiceDataEntity(Long id, String declaration,
                            String audioFile, String content, String disData,
-                           String createdDate, String persent,String admindata,
-                           String reroll, String mfcc, LocalDate modified_date) {
+                           LocalDate createdDate, String persent,String admindata,
+                           String reroll, String mfcc, LocalDate modified_date,
+                           UserEntity user) {
         this.id = id;
-        this.userName = userName;
         this.declaration = declaration;
         this.audioFile = audioFile;
         this.content = content;
@@ -76,10 +77,11 @@ public class VoiceDataEntity {
         this.reroll = reroll;
         this.mfcc = mfcc;
         this.modified_date = modified_date;
+        this.user = user;
     }
     public VoiceDataDomain toDomain() {
         return VoiceDataDomain.builder()
-                .userName(userName)
+                .id(id)
                 .declaration(declaration)
                 .audioFile(audioFile)
                 .content(content)
@@ -90,6 +92,7 @@ public class VoiceDataEntity {
                 .reroll(reroll)
                 .mfcc(mfcc)
                 .modified_date(modified_date)
+                .user(user)
                 .build();
     }
 }

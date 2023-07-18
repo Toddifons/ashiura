@@ -1,5 +1,6 @@
 package com.shiromi.ashiura.domain.dto;
 
+import com.shiromi.ashiura.domain.entity.UserEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,18 +17,20 @@ public class VoiceDataDomain {
     String audioFile;
     String content;
     String disData;
-    String createdDate;
+    LocalDate createdDate;
     String persent;
     String admindata;
     String reroll;
     String mfcc;
     LocalDate modified_date;
+    private UserEntity user;
 
     @Builder
     public VoiceDataDomain(long id, String userName, String declaration,
                            String audioFile, String content, String disData,
-                           String createdDate, String persent,String admindata,
-                           String reroll, String mfcc, LocalDate modified_date) {
+                           LocalDate createdDate, String persent,String admindata,
+                           String reroll, String mfcc, LocalDate modified_date,
+                           UserEntity user) {
         this.id = id;
         this.userName = userName;
         this.declaration = declaration;
@@ -40,6 +43,7 @@ public class VoiceDataDomain {
         this.reroll = reroll;
         this.mfcc = mfcc;
         this.modified_date = modified_date;
+        this.user = user;
     }
     public VoiceDataDomain toEntity() {
         return VoiceDataDomain.builder()
@@ -55,6 +59,7 @@ public class VoiceDataDomain {
                 .reroll(reroll)
                 .mfcc(mfcc)
                 .modified_date(modified_date)
+                .user(user)
                 .build();
     }
 }
