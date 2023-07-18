@@ -27,7 +27,7 @@ public class appAuthController {
         log.info("Post: {}", urlApi + "/auth/login");
         log.info("data: {}", userLoginRequestJson);
         TokenInfo tokenInfo = userService.userLogin(userLoginRequestJson);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(tokenInfo);
     }
 
     //앱에서 로그인 받는 부분 쿠키 반환으로 대체, 다만 토큰자체를 보낼껀지 쿠키로 포장해서 보낼껀지에 대한 조율 필요
