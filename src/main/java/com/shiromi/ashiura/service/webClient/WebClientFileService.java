@@ -45,10 +45,10 @@ public class WebClientFileService {
 
     public void byteReceive(
             MultipartFile file,
-            String userName,
+            Long idx,
             String declaration) throws IOException {
 
-        URI uri = uriUtil.uriPy("/api/VoiClaReq",userName,declaration);
+        URI uri = uriUtil.uriPy("/api/VoiClaReq",idx,declaration);
 
 //        log.info("post:{}{}/{}/{}", urlPy,path,userName,declaration);
         log.info("post: {}", uri);
@@ -76,7 +76,7 @@ public class WebClientFileService {
     }
 
 
-    public void webCliTestMethod(MultipartFile file, String userName, String declaration) throws IOException {
+    public void webCliTestMethod(MultipartFile file, Long idNumber, String declaration) throws IOException {
         log.info("in service: {}",file);
         if (file.isEmpty()) {
             return;
@@ -96,23 +96,12 @@ public class WebClientFileService {
                 .savedNm(savedName)
                 .savedPath(savedPath)
                 .build());
-        URI uri = uriUtil.uriPy("/api/VoiClaReq",userName,declaration);
+
+        URI uri = uriUtil.uriPy("/api/VoiClaReq",idNumber,declaration);
         log.info("uri :{}",uri);
 
         MultiValueMap<String, String> MVMap = new LinkedMultiValueMap<>();
         MVMap.add("file", savedPath);
-
-//        Mono<HttpStatus> httpStatusMono = WebClient.create().post()
-//                .uri(uri)
-//                .contentType(MediaType.MULTIPART_FORM_DATA)
-//                .body(BodyInserters.fromMultipartData(MVMap))
-//                .exchangeToMono(response -> {
-//                    if (response.statusCode().equals(HttpStatus.OK)){
-//                        return response.bodyToMono(HttpStatus.class).thenReturn(response.statusCode());
-//                    } else {
-//                        throw new ServiceException("Error uploading file");
-//                    }
-//                });
 
         WebClient.create().post()
                 .uri(uri)
@@ -123,122 +112,6 @@ public class WebClientFileService {
                 .subscribe();
         log.info("VoiClaReq post success");
 
-//                .exchangeToMono()
-//                .retrieve();
-//                .exchangeToMono();
-//                .bodyToMono(String.class);
-//                .toEntity(JsonNode.class)
-//                .doOnError(e -> log.error("MaEr :",e))
-//                .subscribe();
-//                .block();
-
     }
 
 }
-
-//        Mono<HttpStatus> httpStatusMono = webClient.post()
-//                .uri(urlPy)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(BodyInserters.fromResource(file.getResource()))
-//                .exchangeToMono(response -> {
-//                    if (response.statusCode().equals(HttpStatus.OK)){
-//                        return
-//                                response.bodyToMono(HttpStatus.class).thenReturn(response.statusCode());
-//                    } else {
-//                        throw new ServiceException("Error uploading file");
-//                    }
-//                });
-//        log.info("{}",httpStatusMono);
-
-//        webClient.post().uri(uri)
-//                .bodyValue(file.getBytes())
-//                .retrieve()
-//                .toEntity(byte[].class)
-//                .subscribe();
-//                .block();
-
-//        for (int i=0;i<11;i++) {
-//            Thread.sleep(1000);
-//            webClient.get().uri(uri)
-//                    .retrieve()
-//                    .toEntity(String.class)
-//                    .subscribe();
-//            log.info("resp:{}",i);
-//        }
-
-
-    //        RequestEntity<byte[]> requestEntity = RequestEntity
-//                .post(uri)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .header("","")
-//                .body(file.getBytes());
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<byte[]> fileResponse = restTemplate.exchange(requestEntity, byte[].class);
-//        log.info("resf:{}",fileResponse);
-
-
-
-//        WebClient webClient = WebClient.create();
-//        Mono<?> fileResponse = webClient
-//                .post()
-//                .uri(uri)
-//                .contentType(MediaType.MULTIPART_FORM_DATA)
-//                .body(BodyInserters.fromMultipartData("file", file))
-//                .retrieve()
-//                .bodyToMono(ResponseEntity.class);
-//        fileResponse.subscribe(
-//                r -> log.info("resf:{}", r),
-//                e -> log.error("error:{}", e)
-//        );
-
-
-
-//    public Void exchange(
-//            MultipartFile file,
-//            String userName,
-//            String declaration
-//    ) throws IOException, InterruptedException {
-//        URI uri = UriComponentsBuilder
-//                .fromUriString(urlSer)
-//                .path("/api/VoiClaReq/{userName}/{declaration}")
-//                .encode()
-//                .build()
-//                .expand(userName,declaration)
-//                .toUri();
-//        log.info("post:{}",uri);
-//
-//        RequestEntity<?> requestEntity = RequestEntity
-//                .post(uri)
-//                .contentType(MediaType.MULTIPART_FORM_DATA)
-//                .body(file);
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<?> fileResponse = restTemplate.exchange(requestEntity, MultipartFile.class);
-//        log.info("resf:{}",fileResponse);
-// }
-
-
-//        RequestEntity<byte[]> requestEntity = RequestEntity
-//                .post(uri)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .header("","")
-//                .body(file.getBytes());
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<byte[]> fileResponse = restTemplate.exchange(requestEntity, byte[].class);
-//        log.info("resf:{}",fileResponse);
-
-//        for (int i=0;i<101;i++) {
-//            Thread.sleep(1000);
-//            RequestEntity<Void> request = RequestEntity
-//                    .get(uri)
-//                    .header("", "")
-//                    .build();
-//            ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-//            log.info("resp:{}",String.valueOf(i) + response);
-//        }
-//        return null;
-
-
-

@@ -2,22 +2,18 @@ package com.shiromi.ashiura.controller.auth;
 
 import com.shiromi.ashiura.domain.dto.TokenInfo;
 import com.shiromi.ashiura.domain.dto.UserDomain;
-import com.shiromi.ashiura.domain.dto.request.UserLoginRequest;
+import com.shiromi.ashiura.domain.dto.request.UserLoginRequestDTO;
+import com.shiromi.ashiura.domain.dto.request.UserSignupRequestDTO;
 import com.shiromi.ashiura.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,7 +40,7 @@ public class AuthController {
     }
     //웹에서 로그인 요청 처리하는 메소드
     @PostMapping("/auth/loginForm")
-    public String loginForm(UserLoginRequest userLoginRequestXML, HttpServletResponse response) {
+    public String loginForm(UserLoginRequestDTO userLoginRequestXML, HttpServletResponse response) {
         log.info("Post: {}", urlApi + "/auth/loginForm");
         log.info("data: {}", userLoginRequestXML.toString());
         //토큰 발급
@@ -66,10 +62,10 @@ public class AuthController {
     }
     //웹에서의 회원가입 부분
     @PostMapping("/auth/signupForm")
-    public String saveForm(UserDomain userDomain) {
+    public String saveForm(UserSignupRequestDTO userSignupRequestDTO) {
         log.info("post: {}", urlApi + "/auth/signupForm");
-        log.info("UsDo: {}", userDomain.toString());
-        log.info("save: {}", userService.userSave(userDomain));
+        log.info("UsDo: {}", userSignupRequestDTO.toString());
+        log.info("save: {}", userService.userSave(userSignupRequestDTO));
 
         return "/auth/loginForm";
     }

@@ -37,6 +37,10 @@ public class WebSecurityConfigure {
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+//                .formLogin().loginPage("auth/loginForm")
+//                .loginProcessingUrl("auth/loginForm")
+//                .defaultSuccessUrl("/")
+//                .and()
                 .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
                 .logout()
@@ -50,10 +54,7 @@ public class WebSecurityConfigure {
     }
 
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+
 
 
 //    private final  JwtProvider jwtProvider;

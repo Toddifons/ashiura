@@ -22,16 +22,16 @@ public class VoiceDataEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="audio_file", nullable = false)
+    @Column(name="audio_file", nullable = false, length = 40)
     private String audioFile;
 
     @Lob
     private String content;
 
-    @Column(name="declaration")
+    @Column(name="declaration", nullable = false)
     private String declaration;
 
-    @Column(name="disdata" )
+    @Column(name="disdata", nullable = false)
     private String disData;
 
     @Column(nullable = false)

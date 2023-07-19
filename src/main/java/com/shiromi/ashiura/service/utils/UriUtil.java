@@ -24,7 +24,7 @@ public class UriUtil {
                 .toUri();
     }
 
-    public URI uriApi(String mapping,String var1, String var2) {
+    public URI uriApi(String mapping, Long var1, String var2) {
         return UriComponentsBuilder
                 .fromUriString(urlApi)
                 .path(mapping+"/{var1}/{var2}")
@@ -43,7 +43,7 @@ public class UriUtil {
                 .toUri();
     }
 
-    public URI uriPy(String mapping,String var1, String var2) {
+    public URI uriPy(String mapping, Long var1, String var2) {
         return UriComponentsBuilder
                 .fromUriString(urlPy)
                 .path(mapping+"/{var1}/{var2}")

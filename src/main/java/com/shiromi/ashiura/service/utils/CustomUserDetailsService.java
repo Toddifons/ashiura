@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails createUserDetails(UserEntity user) {
         return User.builder()
                 .username(user.getUsername())
-                .password(passwordEncoder.encode(user.getPassword())) //원래는 인코딩이 된 값이 DB에 저정되어야 보안상으로 좋지만 개발 편의를 위해 DB에서 꺼낸뒤 인코딩함
+                .password(user.getPassword())
+//                .password(passwordEncoder.encode(user.getPassword()))
+                //원래는 인코딩이 된 값이 DB에 저정되어야 보안상으로 좋지만 개발 편의를 위해 DB에서 꺼낸뒤 인코딩함
                 .roles(user.getRating())
                 .build();
     }

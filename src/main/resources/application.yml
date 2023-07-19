@@ -2,10 +2,6 @@ file:
   dir: C:/rest/
 
 url:
-#  app: http://127.0.0.1:5501
-#  api: http://127.0.0.1:5502
-#  py: http://127.0.0.1:5503
-
 #  adm: http://127.0.0.1:9988
 #  api: http://127.0.0.1:9989
 #  py: http://127.0.0.1:9990
@@ -50,7 +46,7 @@ spring:
 
   datasource:
 #    url: jdbc:mariadb://localhost:3306/Testplace_02
-    url: jdbc:mariadb://localhost:3306/Testplace_02
+    url: jdbc:mariadb://localhost:3306/TestPlace_03
     username: root
     password: hkit301301
     driver-class-name: org.mariadb.jdbc.Driver

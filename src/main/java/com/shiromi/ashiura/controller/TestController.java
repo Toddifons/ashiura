@@ -1,7 +1,9 @@
 package com.shiromi.ashiura.controller;
 
 import com.shiromi.ashiura.domain.dto.VoiceDataDomain;
+import com.shiromi.ashiura.service.UserService;
 import com.shiromi.ashiura.service.VoiceDataService;
+import com.shiromi.ashiura.service.webClient.WebClientFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +22,8 @@ import java.io.InputStreamReader;
 public class TestController {
 
     private final VoiceDataService voiceDataService;
-
+    private final UserService userService;
+    private final WebClientFileService webClientFileService;
 
     @Value("${url.api}")
     private String urlApi;
@@ -34,7 +37,7 @@ public class TestController {
                 .body(voiceData);
     }
 
-    @GetMapping("/model/update")
+    @GetMapping("/test/model/update")
     public String modelUpdate() throws IOException, InterruptedException {
         log.info(" : {}","--");
         ProcessBuilder builder;

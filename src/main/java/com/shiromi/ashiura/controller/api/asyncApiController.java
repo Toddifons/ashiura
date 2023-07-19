@@ -1,8 +1,10 @@
 package com.shiromi.ashiura.controller.api;
 
 
+import com.shiromi.ashiura.domain.dto.UserDomain;
 import com.shiromi.ashiura.domain.dto.response.ResultResponseDTO;
 import com.shiromi.ashiura.service.LoadingService;
+import com.shiromi.ashiura.service.UserService;
 import com.shiromi.ashiura.service.webClient.WebClientFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ public class asyncApiController {
 
     private final WebClientFileService webClientFileService;
     private final LoadingService loadingService;
+    private final UserService userService;
 
     @Value("${url.api}")
     private String urlApi;
@@ -36,8 +39,8 @@ public class asyncApiController {
         log.info("async: {}", Thread.currentThread().getName());
         log.info("post: {}",urlApi+"/VoiClaReq");
         log.info("data: {}/{}/{}",file.getOriginalFilename(),userName,declaration);
-
-        webClientFileService.webCliTestMethod(file,userName,declaration);
+        UserDomain user = userService.findByUserName(userName).toDomain();
+        webClientFileService.webCliTestMethod(file,user.getIdx(),declaration);
 //        return ResponseEntity.status(HttpStatus.OK)
 //                .body();
     }
