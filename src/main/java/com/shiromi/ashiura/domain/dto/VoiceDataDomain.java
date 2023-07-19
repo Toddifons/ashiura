@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 public class VoiceDataDomain {
 
-    long id;
+    Long id;
     String userName;
     String declaration;
     String audioFile;
@@ -26,7 +26,7 @@ public class VoiceDataDomain {
     private UserEntity user;
 
     @Builder
-    public VoiceDataDomain(long id, String userName, String declaration,
+    public VoiceDataDomain(Long id, String userName, String declaration,
                            String audioFile, String content, String disData,
                            LocalDate createdDate, String persent,String admindata,
                            String reroll, String mfcc, LocalDate modified_date,
