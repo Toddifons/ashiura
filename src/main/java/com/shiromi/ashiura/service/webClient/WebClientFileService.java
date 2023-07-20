@@ -2,17 +2,14 @@ package com.shiromi.ashiura.service.webClient;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.shiromi.ashiura.domain.dto.response.ReRollResultResponseDTO;
 import com.shiromi.ashiura.domain.entity.FileEntity;
 import com.shiromi.ashiura.repository.FileRepository;
-import com.shiromi.ashiura.service.utils.UriUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +18,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.servlet.function.ServerResponse;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
@@ -29,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
+
+import static org.springframework.boot.util.LambdaSafe.callback;
 
 
 @Slf4j
@@ -38,17 +36,19 @@ import java.util.UUID;
 public class WebClientFileService {
 
     private final FileRepository fileRepository;
-    private final UriUtil uriUtil;
 
     @Value("${file.dir}")
     private String fileDir;
+
+    @Value("${url.py}")
+    private String urlPy;
 
     public void byteReceive(
             MultipartFile file,
             Long idx,
             String declaration) throws IOException {
 
-        URI uri = uriUtil.uriPy("/api/VoiClaReq",idx,declaration);
+        URI uri = uriPy("/api/VoiClaReq", idx, declaration);
 
 //        log.info("post:{}{}/{}/{}", urlPy,path,userName,declaration);
         log.info("post: {}", uri);
@@ -77,7 +77,7 @@ public class WebClientFileService {
 
 
     public void webCliTestMethod(MultipartFile file, Long idNumber, String declaration) throws IOException {
-        log.info("in service: {}",file);
+        log.info("in service: {}", file);
         if (file.isEmpty()) {
             return;
 //            return new ResponseEntity<>("file doesn't exist", HttpStatus.BAD_REQUEST);
@@ -97,8 +97,8 @@ public class WebClientFileService {
                 .savedPath(savedPath)
                 .build());
 
-        URI uri = uriUtil.uriPy("/api/VoiClaReq",idNumber,declaration);
-        log.info("uri :{}",uri);
+        URI uri = uriPy("/api/VoiClaReq", idNumber, declaration);
+        log.info("uri :{}", uri);
 
         MultiValueMap<String, String> MVMap = new LinkedMultiValueMap<>();
         MVMap.add("file", savedPath);
@@ -111,7 +111,17 @@ public class WebClientFileService {
                 .toEntity(String.class)
                 .subscribe();
         log.info("VoiClaReq post success");
-
     }
 
+    public URI uriPy(String mapping, Long var1, String var2) {
+        return UriComponentsBuilder
+                .fromUriString(urlPy)
+                .path(mapping + "/{var1}/{var2}")
+                .encode()
+                .build()
+                .expand(var1, var2)
+                .toUri();
+    }
 }
+
+

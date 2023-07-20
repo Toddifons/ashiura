@@ -7,17 +7,17 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ResultResponseDTO {
+public class PredictionResultResponseDTO {
 
-    private String userName;
+    private Long idx;
     private String declaration;
     private String progress;
     private String voiceResult;
     private String mfccResult;
 
     @Builder
-    public ResultResponseDTO(String userName, String declaration, String progress, String voiceResult, String mfccResult) {
-        this.userName = userName;
+    public PredictionResultResponseDTO(Long idx, String declaration, String progress, String voiceResult, String mfccResult) {
+        this.idx = idx;
         this.declaration = declaration;
         this.progress = progress;
         this.voiceResult = voiceResult;

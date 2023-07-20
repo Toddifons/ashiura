@@ -89,7 +89,7 @@ public class viewController {
         }
         return "test/add_voice_data";
     }
-    // 웹에서 신고하기 뷰 반환
+
     @GetMapping("/view/VoiClaReq")
     public String VoiceClientRequest(
             @AuthenticationPrincipal User user,
@@ -102,6 +102,20 @@ public class viewController {
         }
         return "api/VoiClaReq";
     }
+
+    @GetMapping("/err/denied-page")
+    public String modelTest(
+            @AuthenticationPrincipal User user,
+            Model model){
+        if (user != null) {
+            model.addAttribute("userName", user.getUsername());
+        } else {
+            model.addAttribute("userName", "unknown");
+        }
+        return "view/test";
+    }
+
+
     // 접근 권한이 없는 사용자 튕구는 곳
     @GetMapping("/err/denied-page")
     public String accessDenied(

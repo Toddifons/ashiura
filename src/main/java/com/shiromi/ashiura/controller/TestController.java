@@ -4,6 +4,7 @@ import com.shiromi.ashiura.domain.dto.VoiceDataDomain;
 import com.shiromi.ashiura.service.UserService;
 import com.shiromi.ashiura.service.VoiceDataService;
 import com.shiromi.ashiura.service.webClient.WebClientFileService;
+import com.shiromi.ashiura.service.webClient.WebClientTestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,8 +23,7 @@ import java.io.InputStreamReader;
 public class TestController {
 
     private final VoiceDataService voiceDataService;
-    private final UserService userService;
-    private final WebClientFileService webClientFileService;
+    private final WebClientTestService webClientTestService;
 
     @Value("${url.api}")
     private String urlApi;
@@ -37,14 +37,16 @@ public class TestController {
                 .body(voiceData);
     }
 
-    @GetMapping("/test/model/update")
-    public String modelUpdate() throws IOException, InterruptedException {
+    @GetMapping("/test/runPython/{filePath}")
+    public String runPythonFile(
+            @PathVariable String filePath
+    ) throws IOException, InterruptedException {
         log.info(" : {}","--");
         ProcessBuilder builder;
         BufferedReader br;
 
 //        builder = new ProcessBuilder("python","C:/fuck.py");
-        builder = new ProcessBuilder("python","../py/fuck.py");
+        builder = new ProcessBuilder("python",filePath);
 
         builder.redirectErrorStream(true);
         Process process = builder.start();
@@ -60,7 +62,24 @@ public class TestController {
         if(exitval != 0) {
             System.out.println("failed");
         }
-        return "python success";
+        return filePath + ": python success";
+    }
+    @GetMapping("/admin/modelupdate/{idx}/{declaration}")
+    public String modelUpdate(
+            @PathVariable Long idx,
+            @PathVariable String declaration
+    ){
+
+        return null;
+    }
+    @PostMapping("/admin/text/{idx}/{declaration}")
+    public String modelReRoll(
+            @PathVariable Long idx,
+            @PathVariable String declaration,
+            @RequestParam String text
+    ){
+        webClientTestService.reRollPredictionPost(idx,declaration,text);
+        return null;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.shiromi.ashiura.service;
 
-import com.shiromi.ashiura.domain.dto.response.ResultResponseDTO;
+import com.shiromi.ashiura.domain.dto.response.PredictionResultResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoadingService {
 
-    private ResultResponseDTO resultDTO;
+    private PredictionResultResponseDTO resultDTO;
 
     @Value("${url.api}")
     private String urlApi;
 
     //로딩창 만들려고 몸비튼 흔적
-    public void nowLoading(ResultResponseDTO resultRes, String userName, String declaration) throws InterruptedException {
+    public void nowLoading(PredictionResultResponseDTO resultRes, Long idx, String declaration) throws InterruptedException {
         log.info("_______:{}", resultRes);
-        resultRes.setUserName(userName);
+        resultRes.setIdx(idx);
         resultRes.setDeclaration(declaration);
         this.resultDTO = resultRes;
         log.info("progress: {},{},{}",
@@ -43,7 +43,7 @@ public class LoadingService {
 
 
 
-    public ResultResponseDTO showLoadingView() {
+    public PredictionResultResponseDTO showLoadingView() {
         log.info("load: {}", resultDTO);
         return resultDTO;
     }

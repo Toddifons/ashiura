@@ -2,7 +2,7 @@ package com.shiromi.ashiura.controller.api;
 
 
 import com.shiromi.ashiura.domain.dto.UserDomain;
-import com.shiromi.ashiura.domain.dto.response.ResultResponseDTO;
+import com.shiromi.ashiura.domain.dto.response.PredictionResultResponseDTO;
 import com.shiromi.ashiura.service.LoadingService;
 import com.shiromi.ashiura.service.UserService;
 import com.shiromi.ashiura.service.webClient.WebClientFileService;
@@ -48,12 +48,12 @@ public class asyncApiController {
     //py에서 던져진 Json데이터를 받아서 DTO객체를 set하는 메소드를 호출하는 맵핑
     @PostMapping("/progress/{userName}/{declaration}")
     public void progress(
-            @RequestBody ResultResponseDTO resultRes,
-            @PathVariable("userName") String userName,
+            @RequestBody PredictionResultResponseDTO resultRes,
+            @PathVariable("idx") Long idx,
             @PathVariable("declaration") String declaration
     ) throws InterruptedException {
-        log.info("post: {}/{}/{}",urlApi+"/progress",userName,declaration);
-        loadingService.nowLoading(resultRes,userName,declaration);
+        log.info("post: {}/{}/{}",urlApi+"/progress",idx,declaration);
+        loadingService.nowLoading(resultRes,idx,declaration);
     }
 
 
