@@ -67,7 +67,7 @@ public class viewController {
     public String view_loading(
             @AuthenticationPrincipal User user,
             Model model) throws InterruptedException {
-        log.info("Get: {}", urlApi + "/view/loading");
+        log.info("View: {}", urlApi + "/view/loading");
         model.addAttribute("result",loadingService.showLoadingView());
         if (user != null) {
             model.addAttribute("userName", user.getUsername());
@@ -81,7 +81,7 @@ public class viewController {
     public String addVoiceData(
             @AuthenticationPrincipal User user,
             Model model) {
-        log.info("Get: {}", urlApi + "/test/add_voice_data");
+        log.info("View: {}", urlApi + "/test/add_voice_data");
         if (user != null) {
             model.addAttribute("userName", user.getUsername());
         } else {
@@ -94,7 +94,7 @@ public class viewController {
     public String VoiceClientRequest(
             @AuthenticationPrincipal User user,
             Model model) {
-        log.info("Get: {}", urlApi + "/Test/VoiClaReq");
+        log.info("View: {}", urlApi + "/Test/VoiClaReq");
         if (user != null) {
             model.addAttribute("userName", user.getUsername());
         } else {

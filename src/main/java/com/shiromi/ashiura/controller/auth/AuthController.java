@@ -25,11 +25,11 @@ public class AuthController {
     private String urlApi;
 
     // 로그인 뷰 띄우기
-    @GetMapping("/auth/loginForm")
+    @GetMapping("/auth/loginPage")
     public String login(Model model) {
         log.info("View: {}", urlApi + "/auth/login");
         model.addAttribute("userName", "unknown");
-        return "auth/loginForm";
+        return "auth/loginPage";
     }
     // 회원가입 뷰 띄우기
     @GetMapping("/auth/signup")
@@ -58,7 +58,6 @@ public class AuthController {
         response.addHeader("Set-Cookie",cookie.toString());
         //쿠키로 로그인적용을 위한 임시 페이지
         return "/justwait";
-
     }
     //웹에서의 회원가입 부분
     @PostMapping("/auth/signupForm")

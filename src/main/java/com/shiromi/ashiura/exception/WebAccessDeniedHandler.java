@@ -26,15 +26,16 @@ public class WebAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpStatus.FORBIDDEN.value());
 
         if(accessDeniedException != null) {
+            log.info("403");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if(authentication != null &&
-                    ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("ROLE_Y"))) {
-                request.setAttribute("msg","you do not have access_Y");
+                    ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+                request.setAttribute("msg","you do not have access_A");
                 request.setAttribute("nextPage","/");
             }
             if (authentication != null &&
-                    ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("ROLE_N"))) {
-                request.setAttribute("msg","you do not have access_N");
+                    ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("USER"))) {
+                request.setAttribute("msg","you do not have access_U");
                 request.setAttribute("nextPage","/");
             }
 //            if (authentication != null &&

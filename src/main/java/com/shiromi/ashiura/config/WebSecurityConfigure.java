@@ -37,45 +37,20 @@ public class WebSecurityConfigure {
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-//                .formLogin().loginPage("auth/loginForm")
+                .formLogin()
+//                .loginPage("auth/loginPage")
 //                .loginProcessingUrl("auth/loginForm")
 //                .defaultSuccessUrl("/")
-//                .and()
+                .and()
                 .exceptionHandling().accessDeniedHandler(webAccessDeniedHandler)
                 .and()
                 .logout()
                 .logoutUrl("/auth/logout")
                 .clearAuthentication(true)
                 .deleteCookies("Bearer")
-                .logoutSuccessUrl("/auth/loginForm")
+                .logoutSuccessUrl("/auth/loginPage")
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-
-
-
-
-//    private final  JwtProvider jwtProvider;
-//    private final JwtConfig jwtConfig;
-
-
-//    @Override
-//    public void configure(SecurityBuilder builder) throws Exception {
-//        super.configure(builder);
-//    }
-
-
-
-//        http.httpBasic().disable()
-//                .authorizeRequests()
-//                .antMatchers("").authenticated()
-//                .antMatchers("").hasRole("")
-//                .antMatchers("/**").permitAll()
-//                .and()
-//                .andFilterBefore(new JwtAuthenticationFilter(WebSecurityConfigure),
-//                        UsernamePasswordAuthenticationFilter.class);
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//    }
 }
