@@ -1,33 +1,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragment/common :: html-head"></th:block>
-<th:block th:replace="fragment/common :: header"></th:block>
 <body>
+<th:block th:replace="fragment/common :: header"></th:block>
+<section>
+  <header>
+    <h2>신고 목록</h2>
 
+    <h3 th:text="${userName}">  </h3>
+  </header>
+</section>
+<section>
 
-<h3>신고 목록</h3>
-<!--<form class="m-v" role="form" th:action="@{/view/info}"-->
-<!--      action="#" id="infoForm" method="post">-->
-<!--  <input type="text"  name="userName" id="userName" th:value="${userName}"-->
-<!--         class="form-control" placeholder="userName" required="required"/>-->
-  <h4 th:text="${userName}"></h4>
+  <!--<form class="m-v" role="form" th:action="@{/view/info}"-->
+  <!--      action="#" id="infoForm" method="post">-->
+  <!--  <input type="text"  name="userName" id="userName" th:value="${userName}"-->
+  <!--         class="form-control" placeholder="userName" required="required"/>-->
+
 
   <table>
-    <tr><td>idx</td><td>신고된전화번호</td><td>판명여부</td><td>신고날짜</td></tr>
+    <thead><tr><th>idx</th><th>신고된전화번호</th><th>판명여부</th><th>신고날짜</th></tr></thead>
+    <tbody>
     <tr th:each="data, idx : ${voiceData}">
       <td th:text="${idx.index}"></td>
       <td th:text="${data.declaration}"></td>
       <td th:text="${data.disData}"></td>
       <td th:text="${data.createdDate}"></td>
     </tr>
-
+    </tbody>
   </table>
-
+  <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
+</section>
 
 <!--  <button type="submit" class=>Request</button>-->
 <!--</form>-->
 
 
 
-  <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
+<th:block th:replace="fragment/common :: footer"></th:block>
 </body>
 </html>

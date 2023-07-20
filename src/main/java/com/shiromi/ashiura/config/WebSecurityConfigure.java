@@ -36,8 +36,8 @@ public class WebSecurityConfigure {
 //                .antMatchers("/","/err/**","/auth/**","/justwait","/img/**").permitAll() //권한 유무따지지 않고 모두 접근
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
+//                .and()
+//                .formLogin()
 //                .loginPage("auth/loginPage")
 //                .loginProcessingUrl("auth/loginForm")
 //                .defaultSuccessUrl("/")

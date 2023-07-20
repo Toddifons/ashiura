@@ -1,67 +1,66 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragment/common :: html-head"></th:block>
-<th:block th:replace="fragment/common :: header"></th:block>
 <body>
-    <h2>통화 테이블 데이터 임시 추가</h2>
+<th:block th:replace="fragment/common :: header"></th:block>
+<main>
+    <section>
+        <form class="m-s" role="form" th:action="@{/test/voice_data/add}"
+              action="#" id="loginForm" method="post">
+            <header>
+                <h2>통화 테이블 데이터 임시 추가</h2>
+            </header>
+            <label for="userName">아이디 : </label>
+            <div class="form-group">
+                <input type="text"  name="userName" id="userName"
+                       class="form-control" placeholder="userName" required="required"/>
+            </div> <!-- 유저 아이디 -->
+            <label for="declaration">신고할 전화번호 : </label>
+            <div class="form-group">
+                <input type="tel" name="declaration" id="declaration"
+                       class="form-control" placeholder="declaration" required="required"/>
+            </div> <!-- 신고 전화번호 -->
+            <label for="audioFile">오디오 파일명 : </label>
+            <div class="form-group">
+                <input type="text"  name="audioFile" id="audioFile"
+                       class="form-control" placeholder="audioFile" required="required"/>
+            </div> <!-- 신고들어온 오디오 파일명 -->
+            <label for="content">내용[STT] : </label>
+            <div class="form-group">
+                <input type="text"  name="content" id="content"
+                       class="form-control" placeholder="content" required="required"/>
+            </div> <!-- STT 변환 문자열 -->
+            <span> 판별 결과값 </span>
+            <div class="form-group">
+                <input type="radio" name="disData" value="1"> Yes <br>
+                <input type="radio" name="disData" value="0" checked> No <br>
+            </div> <!-- 판별 결과값 ex : 0 or 1 -->
+            <label for="persent">모델 예측치(0~1까지의 소수) : </label>
+            <div class="form-group">
+                <input type="text"  name="persent" id="persent"
+                       class="form-control" placeholder="persent"/>
+            </div> <!-- 모델 결과 퍼센트 ex : 0.98882  -->
+            <span> 관리자 판단값 </span>
+            <div class="form-group">
+                <input type="radio" name="admindata" value="1"> Yes <br>
+                <input type="radio" name="admindata" value="0" checked> No <br>
+            </div> <!-- 관리자 임의 판단값 ex : 1 or 0  -->
+            <label for="reroll">모델이 재학습 후 판별한 값(0~1까지의 소수) : </label>
+            <div class="form-group">
+                <input type="text"  name="reroll" id="reroll" value ="0"
+                       class="form-control" placeholder="reroll"/>
+            </div> <!-- 재학습해서 나온 퍼센트 ex : 0.98882 -->
+            <label for="mfcc">음성변조 판별값(0~1까지의 소수) : </label>
+            <div class="form-group">
+                <input type="text"  name="mfcc" id="mfcc"
+                       class="form-control" placeholder="mfcc"/>
+            </div> <!-- 음성변조판별결과 ex : 0.87722 -->
 
-    <form class="m-s" role="form" th:action="@{/test/voice_data/add}"
-          action="#" id="loginForm" method="post">
-
-        <div class="form-group">
-            <input type="text"  name="userName" id="userName"
-                   class="form-control" placeholder="userName" required="required"/>
-        </div> <!-- 유저 아이디 -->
-
-        <div class="form-group">
-            <input type="tel" name="declaration" id="declaration"
-                   class="form-control" placeholder="declaration" required="required"/>
-        </div> <!-- 신고 전화번호 -->
-
-        <div class="form-group">
-            <input type="text"  name="audioFile" id="audioFile"
-                   class="form-control" placeholder="audioFile" required="required"/>
-        </div> <!-- 신고들어온 오디오 파일명 -->
-
-        <div class="form-group">
-            <input type="text"  name="content" id="content"
-                   class="form-control" placeholder="content" required="required"/>
-        </div> <!-- STT 변환 문자열 -->
-        <span> 판별 결과값 </span>
-        <div class="form-group">
-            <input type="radio" name="disData" value="Y"> Yes <br>
-
-            <input type="radio" name="disData" value="N" checked> No <br>
-        </div> <!-- 판별 결과값 ex : 0 or 1 -->
-
-        <div class="form-group">
-            <input type="text"  name="persent" id="persent"
-                   class="form-control" placeholder="persent"/>
-        </div> <!-- 모델 결과 퍼센트 ex : 0.98882  -->
-
-        <div class="form-group">
-            <input type="text"  name="admindata" id="admindata"
-                   class="form-control" placeholder="admindata"/>
-        </div> <!-- 관리자 임의 판단값 ex : 1 or 0  -->
-
-        <div class="form-group">
-            <input type="text"  name="reroll" id="reroll" value ="0"
-                   class="form-control" placeholder="reroll"/>
-        </div> <!-- 재학습해서 나온 퍼센트 ex : 0.98882 -->
-
-        <div class="form-group">
-            <input type="text"  name="mfcc" id="mfcc"
-                   class="form-control" placeholder="mfcc"/>
-        </div> <!-- 음성변조판별결과 ex : 0.87722 -->
-
-
-
-
-        <button type="submit" class=>Signup</button>
-    </form>
-
-    <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
-
+            <button type="submit" class=>Signup</button>
+            <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
+        </form>
 <!--    "btn btn-primary block full-width m-b"-->
-
+    </section>
+</main>
 </body>
+<th:block th:replace="fragment/common :: footer"></th:block>
 </html>

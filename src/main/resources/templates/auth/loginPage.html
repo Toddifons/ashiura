@@ -2,23 +2,28 @@
 <th:block th:replace="fragment/common :: html-head"></th:block>
 <th:block th:replace="fragment/common :: header"></th:block>
 <body>
-    <h2>로그인</h2>
+<main>
+    <section>
+        <form class="m-l" role="form" th:action="@{/auth/loginForm}" enctype="application/json"
+               id="loginForm" method="post">
+            <header>
+                <h2>Login Page</h2>
+            </header>
+            <label for="userName">아이디 : </label>
+            <div class="form-group">
+                <input type="text"  name="userName" id="userName"
+                       class="form-control" placeholder="userName" required="required"/>
+            </div>
+            <label for="password">비밀번호 : </label>
+            <div class="form-group">
+                <input type="password" name="password" id="password"
+                       class="form-control" placeholder="Password" required="required"/>
+            </div>
+            <button type="submit" class=>Login</button>
+            <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
+        </form>
+    </section>
 
-    <form class="m-l" role="form" th:action="@{/auth/loginForm}" enctype="application/json"
-           id="loginForm" method="post">
-
-        <div class="form-group">
-            <input type="text"  name="userName" id="userName"
-                   class="form-control" placeholder="userName" required="required"/>
-        </div>
-        <div class="form-group">
-            <input type="password" name="password" id="password"
-                   class="form-control" placeholder="Password" required="required"/>
-        </div>
-        <button type="submit" class=>Login</button>
-    </form>
-
-    <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
 
 
 <!--    <script>-->
@@ -36,6 +41,7 @@
 
 <!--    "btn btn-primary block full-width m-b"-->
 
-
+</main>
 </body>
+<th:block th:replace="fragment/common :: footer"></th:block>
 </html>

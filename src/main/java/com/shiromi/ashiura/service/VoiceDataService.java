@@ -1,5 +1,6 @@
 package com.shiromi.ashiura.service;
 
+import com.shiromi.ashiura.domain.entity.UserEntity;
 import com.shiromi.ashiura.repository.VoiceDataRepository;
 import com.shiromi.ashiura.domain.dto.VoiceDataDomain;
 import com.shiromi.ashiura.domain.entity.VoiceDataEntity;
@@ -41,8 +42,8 @@ public class VoiceDataService {
         return savedVoiceData.toString();
     }
 
-    public List<VoiceDataEntity> findByUserNameAll(String userName) {
-        return voiceDataRepository.findTop10ByUserNameOrderByCreatedDateDesc(userName);
+    public List<VoiceDataEntity> findByIdxAll(Long idx) {
+        return voiceDataRepository.findByIdxAll(idx);
     }
 
 

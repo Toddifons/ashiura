@@ -1,11 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="fragment/common :: html-head"></th:block>
-<th:block th:replace="fragment/common :: header"></th:block>
   <body>
-
+  <th:block th:replace="fragment/common :: header"></th:block>
+  <section>
 <!--  <div th:text="@{${@environment.getProperty('url.api')} + ''}"></div>-->
 <!--  <meta http-equiv="refresh" th:content="@{'1;url=' + ${@environment.getProperty('url.api')}}">-->
-  <meta http-equiv="refresh" content="1;/">
-  <img src="/img/paymonNunchi.png" height="200" width="200"/>
+    <meta http-equiv="refresh" content="1;/">
+    <img src="/img/paymonNunchi.png" height="200" width="200"/>
+  </section>
   </body>
 </html>

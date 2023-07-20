@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -11,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.scheduler.Schedulers;
 
 import java.net.URI;
 
@@ -22,6 +24,7 @@ public class WebClientTestService {
 
     @Value("${url.py}")
     private String urlPy;
+
 
     public void modelUpdateRequestGet(Long idx, String declaration) {
 
@@ -42,12 +45,19 @@ public class WebClientTestService {
         MultiValueMap<String, String> MVMap = new LinkedMultiValueMap<>();
         MVMap.add("text", text);
 
-
+//        파라레루파라레루파라레루파라레루파라레루파라레루파라레루파라레루파라레루파라레루파라레루파라레루파라레루파라레루
+//        .parallel() : 병렬처리, 쓰레드 생성에 제한 없음
+//        .boundedElastic() : 병렬처리, 병렬처리하는 쓰레드 수에 제한을 둠
+//        .fromExecutor() : ExecutorService에서 코드를 실행 ExecutorService = 쓰레드풀 관리인터페이스
+//        .immediate() : 단일처리, 현재 작업중인쓰레드가 하던 작업 내팽겨치고 바로 해당일을 하러감
+//        .single() : 단일처리, 대기 상태인 쓰레드가 이어서 작업함, 쓰레드를 새로 추가 하지 않음
+//        .new ... (): 작업이 끝나도 해당 쓰레드는 재사용 되지 않음, 어플리케이션을 종료하거나 임의로 초기화 하기 전까지 데이터를 유지함
         WebClient.create().post()
                 .uri(uri)
                 .body(BodyInserters.fromMultipartData(MVMap))
                 .retrieve()
                 .bodyToMono(JsonNode.class)
+                .subscribeOn(Schedulers.single())
                 .subscribe(jsonNode -> log.info("{}", jsonNode));
 
     }

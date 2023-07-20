@@ -41,7 +41,7 @@ public class TestController {
     public String runPythonFile(
             @PathVariable String filePath
     ) throws IOException, InterruptedException {
-        log.info(" : {}","--");
+        log.info("runPy: {}",filePath);
         ProcessBuilder builder;
         BufferedReader br;
 
