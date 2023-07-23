@@ -26,9 +26,9 @@ public class WebClientTestService {
     private String urlPy;
 
 
-    public void modelUpdateRequestGet(Long idx, String declaration) {
+    public void modelUpdateRequestGet() {
 
-        URI uri = uriPy("/api/modelupdate", idx, declaration);
+        URI uri = uriPy("/api/modelupdate");
 
         WebClient.create().get()
                 .uri(uri)
@@ -36,8 +36,8 @@ public class WebClientTestService {
                 .bodyToMono(Void.class)
                 .doOnError(e -> log.error("Err :", e))
                 .subscribe();
-    }
 
+    }
     public void reRollPredictionPost(Long idx, String declaration, String text) {
 
         URI uri = uriPy("/api/text", idx, declaration);
@@ -58,7 +58,10 @@ public class WebClientTestService {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .subscribeOn(Schedulers.single())
-                .subscribe(jsonNode -> log.info("{}", jsonNode));
+                .subscribe(jsonNode ->
+                        log.info("{}", jsonNode)
+
+                );
 
     }
 //        Mono<ReRollResultResponseDTO> reRollResult = WebClient.create().get()
@@ -84,5 +87,12 @@ public class WebClientTestService {
                     .expand(var1, var2)
                     .toUri();
         }
+        public URI uriPy(String mapping) {
+        return UriComponentsBuilder
+                .fromUriString(urlPy)
+                .path(mapping)
+                .build()
+                .toUri();
+    }
 
     }

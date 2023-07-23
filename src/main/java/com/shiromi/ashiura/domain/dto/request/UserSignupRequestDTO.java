@@ -16,8 +16,8 @@ public class UserSignupRequestDTO {
     private String rating;
 
     @Builder
-    public UserSignupRequestDTO(String userName, String name,
-                                String password, String phoneNumber, String rating){
+    public UserSignupRequestDTO(String userName, String name, String password,
+                                String phoneNumber, String rating){
         this.userName = userName;
         this.name = name;
         this.password = password;

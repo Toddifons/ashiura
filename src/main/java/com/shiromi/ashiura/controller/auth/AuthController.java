@@ -28,14 +28,14 @@ public class AuthController {
     @GetMapping("/auth/loginPage")
     public String login(Model model) {
         log.info("View: {}", urlApi + "/auth/login");
-        model.addAttribute("userName", "unknown");
+        model.addAttribute("userName", "로그인");
         return "auth/loginPage";
     }
     // 회원가입 뷰 띄우기
     @GetMapping("/auth/signup")
     public String signup(Model model) {
         log.info("View: {}", urlApi + "/auth/signup");
-        model.addAttribute("userName", "unknown");
+        model.addAttribute("userName", "로그인");
         return "auth/signup";
     }
     //웹에서 로그인 요청 처리하는 메소드

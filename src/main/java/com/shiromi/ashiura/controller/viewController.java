@@ -45,13 +45,13 @@ public class viewController {
         if (user != null) {
             model.addAttribute("userName", user.getUsername());
         } else {
-            model.addAttribute("userName", "unknown");
+            model.addAttribute("userName", "로그인");
         }
         return "home";
     }
     //신고 내역 뷰 반환
-    @GetMapping("/view/info")
-    public String view_user_info(
+    @GetMapping("/view/voicedata")
+    public String viewVoiceData(
             @AuthenticationPrincipal User user,
             Model model) {
         log.info("View: {}", urlApi + "/view/info");

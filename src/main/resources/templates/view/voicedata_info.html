@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="fragment/common :: html-head"></th:block>
+<body>
+<th:block th:replace="fragment/common :: header"></th:block>
+<section>
+  <header>
+    <h2>신고 목록</h2>
+
+    <span th:text="${userName}"></span>
+    <th:block th:if="${userName == '로그인'}">이 필요합니다</th:block>
+  </header>
+</section>
+<section>
+
+  <!--<form class="m-v" role="form" th:action="@{/view/info}"-->
+  <!--      action="#" id="infoForm" method="post">-->
+  <!--  <input type="text"  name="userName" id="userName" th:value="${userName}"-->
+  <!--         class="form-control" placeholder="userName" required="required"/>-->
+
+
+  <table>
+    <thead><tr><th>idx</th><th>신고된전화번호</th><th>판명여부</th><th>신고날짜</th></tr></thead>
+    <tbody>
+    <tr th:each="data, idx : ${voiceData}">
+      <td th:text="${idx.index}"></td>
+      <td><a th:text="${data.declaration}" th:href="@{/view/voicedata/{id}(id=${data.declaration})}"></a></td>
+      <td th:text="${data.disData}"></td>
+      <td th:text="${data.createdDate}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
+</section>
+
+<!--  <button type="submit" class=>Request</button>-->
+<!--</form>-->
+
+
+
+<th:block th:replace="fragment/common :: footer"></th:block>
+</body>
+</html>

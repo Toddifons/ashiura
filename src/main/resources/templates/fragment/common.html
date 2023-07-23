@@ -5,30 +5,31 @@
         <meta charset="UTF-8">
         <title>301project</title>
         <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+<!--        <link rel="stylesheet"-->
+<!--              href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">-->
     </head>
 
 <body>
 
 
 <header th:fragment="headerFragment">
-    <link rel="stylesheet" href="/css/common.css">
+<!--    <link rel="stylesheet" href="/css/common.css">-->
     <nav class="gray">
-        <a href="/"><img alt="home" src="/img/home.png" height="70"></a>
+<!--        <a href="/"><img alt="home" src="/img/home.png" height="70"></a>-->
+        <a href="/">zeroBase</a>
         <ul>
-            <li><a href="#">사용자 정보</a>
+            <li><a href="#">신고 정보</a>
                 <ul>
                     <li>
-                        <a href="/view/info">회원이 신고한 목록</a>
+                        <a href="/view/VoiClaReq">신고하기</a>
+                    </li>
+                    <li>
+                        <a href="/view/voicedata">사용자 신고 내역</a>
                     </li>
                 </ul>
             </li>
             <li><a href="#">테스트 툴</a>
                 <ul>
-                    <li>
-                        <a href="/view/VoiClaReq">신고하기</a>
-                    </li>
                     <li>
                         <a href="/view/loading">로딩창 테스트</a>
                     </li>
@@ -37,22 +38,36 @@
                     </li>
                 </ul>
             </li>
-            <th:block th:if="${userName != 'unknown'}">
-                <li>
-                    <a href="#"><span th:text="${userName}"></span></a>
-                </li>
-                <li>
-                    <a href="/auth/logout">로그아웃</a>
-                </li>
-            </th:block>
-            <th:block th:if="${userName == 'unknown'}">
-                <li>
-                    <a href="/auth/signup">회원가입</a>
-                </li>
-                <li>
-                    <a href="/auth/loginPage">로그인</a>
-                </li>
-            </th:block>
+
+            <li>
+            <a href="#"><span th:text="${userName}"></span></a>
+                <ul>
+                    <th:block th:if="${userName == '로그인'}">
+                    <li>
+                        <a href="/auth/loginPage">로그인</a>
+                    </li>
+                    <li>
+                        <a href="/auth/signup">회원가입</a>
+                    </li>
+                    </th:block>
+                    <li>
+                        <th:block th:if="${userName != '로그인'}">
+                            <a href="/auth/logout">로그아웃</a>
+                        </th:block>
+                    </li>
+                    <li>
+                        <a href="/view/personal-info">마이페이지</a>
+                    </li>
+                    <li>
+                        <a href="#">설정</a>
+                    </li>
+                </ul>
+            </li>
+<!--            <li>-->
+<!--                <div class="search">-->
+<!--                    <input type="text" placeholder="검색할 전화번호">-->
+<!--                </div>-->
+<!--            </li>-->
         </ul>
     </nav>
 </header>

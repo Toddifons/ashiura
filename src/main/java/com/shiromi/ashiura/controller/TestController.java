@@ -64,12 +64,9 @@ public class TestController {
         }
         return filePath + ": python success";
     }
-    @GetMapping("/admin/modelupdate/{idx}/{declaration}")
-    public String modelUpdate(
-            @PathVariable Long idx,
-            @PathVariable String declaration
-    ){
-
+    @GetMapping("/admin/modelupdate/")
+    public String modelUpdate(){
+        webClientTestService.modelUpdateRequestGet();
         return null;
     }
     @PostMapping("/admin/text/{idx}/{declaration}")

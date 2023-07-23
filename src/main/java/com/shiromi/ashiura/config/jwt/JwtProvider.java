@@ -41,7 +41,7 @@ public class JwtProvider {
 
         long now =(new Date()).getTime();
 
-        Date accessTokenExpiresIn = new Date(now + 1800000);
+        Date accessTokenExpiresIn = new Date(now + 3600000);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth",authorities)
