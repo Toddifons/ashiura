@@ -1,9 +1,7 @@
-package com.shiromi.ashiura.controller;
+package com.shiromi.ashiura.controller.api;
 
 import com.shiromi.ashiura.domain.dto.VoiceDataDomain;
-import com.shiromi.ashiura.service.UserService;
 import com.shiromi.ashiura.service.VoiceDataService;
-import com.shiromi.ashiura.service.webClient.WebClientFileService;
 import com.shiromi.ashiura.service.webClient.WebClientTestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +18,7 @@ import java.io.InputStreamReader;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
-public class TestController {
+public class TestApiController {
 
     private final VoiceDataService voiceDataService;
     private final WebClientTestService webClientTestService;
@@ -36,7 +34,7 @@ public class TestController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(voiceData);
     }
-
+    //로컬내의 파이썬 파일을 실행시키는 코드
     @GetMapping("/test/runPython/{filePath}")
     public String runPythonFile(
             @PathVariable String filePath
@@ -64,11 +62,13 @@ public class TestController {
         }
         return filePath + ": python success";
     }
+//    동작 확인용
     @GetMapping("/admin/modelupdate/")
     public String modelUpdate(){
         webClientTestService.modelUpdateRequestGet();
         return null;
     }
+    //    동작 확인용
     @PostMapping("/admin/text/{idx}/{declaration}")
     public String modelReRoll(
             @PathVariable Long idx,

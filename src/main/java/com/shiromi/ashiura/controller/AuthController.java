@@ -1,4 +1,4 @@
-package com.shiromi.ashiura.controller.auth;
+package com.shiromi.ashiura.controller;
 
 import com.shiromi.ashiura.domain.dto.TokenInfo;
 import com.shiromi.ashiura.domain.dto.UserDomain;
