@@ -4,16 +4,17 @@
 <th:block th:replace="fragment/common :: header"></th:block>
 <section>
     <header>
-    <h1>HTTP GET</h1>
-
-    <h3>로딩중</h3>
+    <h2>진행도</h2>
     </header>
-    <ul>
-        <li>
-            <meta http-equiv="refresh" content="1;/view/loading">
-            <span th:text="${result}"></span>
-        </li>
-    </ul>
+    <aside>
+        <meta http-equiv="refresh" content="1;/view/loading">
+        <th:div th:if="${result == null}"><h3>처리중인 데이터가 없음</h3></th:div>
+        <th:block th:if="${result != null}">
+            <th:div th:text="${result.progress}"></th:div>
+            <th:div th:if="${result.mfccResult != '9'}" th:text="${result.voiceResult}">진행중</th:div>
+            <th:div th:if="${result.mfccResult != '9'}" th:text="${result.mfccResult}">진행중</th:div>
+        </th:block>
+    </aside>
 </section>
 </body>
 <th:block th:replace="fragment/common :: footer"></th:block>

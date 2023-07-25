@@ -3,6 +3,7 @@ package com.shiromi.ashiura.service;
 import com.shiromi.ashiura.config.jwt.JwtProvider;
 import com.shiromi.ashiura.domain.dto.TokenInfo;
 import com.shiromi.ashiura.domain.dto.request.UserSignupRequestDTO;
+import com.shiromi.ashiura.domain.dto.request.UserUpdateRequestDTO;
 import com.shiromi.ashiura.repository.UserRepository;
 import com.shiromi.ashiura.domain.dto.UserDomain;
 import com.shiromi.ashiura.domain.dto.request.UserLoginRequestDTO;
@@ -28,6 +29,7 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder encoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Transactional
@@ -55,6 +57,22 @@ public class UserService {
         userSignupRequestDTO.setPassword(encodePassword);
         UserEntity savedUser = userRepository.save(userSignupRequestDTO.toEntity());
         return savedUser.toString();
+    }
+
+    public String userPwUpdate(UserDomain userDto, String OrgPw, String NewPw) {
+        if (bCryptPasswordEncoder.matches(userDto.getPassword(),OrgPw) ) {
+            return "3"; //비밀번호 불일치
+        } else {
+            String encodePw = encoder.encode(NewPw);
+            userRepository.updatePassword(userDto.getIdx(),encodePw);
+        }
+        return "2"; //성공
+    }
+
+    public String userUpdate(UserUpdateRequestDTO userDto){
+        log.info("{},{},{}",userDto.getIdx(),userDto.getName(),userDto.getPhoneNumber());
+        userRepository.updateNameAndPhoneNumber(userDto.getIdx(),userDto.getName(),userDto.getPhoneNumber());
+        return "2";
     }
 
     public UserEntity findByUserName(String userName) {

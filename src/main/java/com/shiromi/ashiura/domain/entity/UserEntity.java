@@ -1,6 +1,7 @@
 package com.shiromi.ashiura.domain.entity;
 
 import com.shiromi.ashiura.domain.dto.UserDomain;
+import com.shiromi.ashiura.domain.dto.request.UserUpdateRequestDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

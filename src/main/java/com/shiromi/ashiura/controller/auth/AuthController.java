@@ -40,7 +40,8 @@ public class AuthController {
     }
     //웹에서 로그인 요청 처리하는 메소드
     @PostMapping("/auth/loginForm")
-    public String loginForm(UserLoginRequestDTO userLoginRequestXML, HttpServletResponse response) {
+    public String loginForm(UserLoginRequestDTO userLoginRequestXML, HttpServletResponse response,
+                            Model model) {
         log.info("Post: {}", urlApi + "/auth/loginForm");
         log.info("data: {}", userLoginRequestXML.toString());
         //토큰 발급
@@ -53,6 +54,8 @@ public class AuthController {
                 .sameSite("Lax") //서드파티 보안문제
                 .httpOnly(true) // ture = JS가 읽어내지 못하게함,  CSS취약점 문제해결
                 .build();
+
+        model.addAttribute("waitCheck","1");
 
         log.info(cookie.toString());
         response.addHeader("Set-Cookie",cookie.toString());

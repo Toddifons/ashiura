@@ -6,7 +6,9 @@
 <!--  <div th:text="@{${@environment.getProperty('url.api')} + ''}"></div>-->
 <!--  <meta http-equiv="refresh" th:content="@{'1;url=' + ${@environment.getProperty('url.api')}}">-->
     <meta http-equiv="refresh" content="1;/">
-      <span>잠시만 기다려 주세요</span>
+      <th:span th:if="${waitCheck == '3'}">비밀번호가 틀렸습니다.</th:span>
+      <th:span th:if="${waitCheck == '2'}">성공적으로 변경되었습니다.</th:span>
+      <th:span th:if="${waitCheck == '1'}">잠시만 기다려 주세요</th:span>
 <!--    <img src="/img/paymonNunchi.png" height="200" width="200"/>-->
   </section>
   </body>

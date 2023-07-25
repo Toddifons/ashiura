@@ -5,7 +5,7 @@
 
 <main>
     <section>
-        <form class="m-s" role="form" th:action="@{/auth/signupForm}" enctype="application/x-www-form-urlencoded"
+        <form class="u-m" role="form" th:action="@{/user/modify}" enctype="application/x-www-form-urlencoded"
               action="#" id="loginForm" method="post">
             <header>
                 <h2>회원정보 수정</h2>
@@ -27,7 +27,7 @@
             <input type="password"  name="password" id="password" class="form-control"
                    value="********" onClick="location.href='/view/personal-info/password'" readonly />
 
-            <button type="submit" class=>변경사항 저장하기</button>
+            <button type="submit" class="u-m">변경사항 저장하기</button>
             <button type="button" class="btn btn-primary" onclick="history.go(-1)">redirect</button>
         </form>
     </section>

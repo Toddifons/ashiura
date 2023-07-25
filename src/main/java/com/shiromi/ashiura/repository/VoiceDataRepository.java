@@ -20,6 +20,7 @@ public interface VoiceDataRepository extends JpaRepository<VoiceDataEntity,Long>
     @Query(value = "SELECT v FROM VoiceDataEntity v JOIN UserEntity u On v.user = u.idx WHERE u.idx = :idx")
     List<VoiceDataEntity> findByIdxAll(@Param("idx") Long idx);
 
+
 //    Optional<VoiceDataEntity> findByDeclaration(String declaration);
 }
 

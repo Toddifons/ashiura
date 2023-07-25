@@ -45,6 +45,7 @@ public class LoadingService {
 
     public PredictionResultResponseDTO showLoadingView() {
         log.info("load: {}", resultDTO);
+
         return resultDTO;
     }
 
