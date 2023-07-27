@@ -1,4 +1,4 @@
-package com.shiromi.ashiura.exception;
+package com.shiromi.ashiura.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;

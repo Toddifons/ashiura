@@ -1,6 +1,7 @@
 package com.shiromi.ashiura.config.jwt;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -13,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
@@ -34,8 +36,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     // Request Header 에서 토큰 정보 추출
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Cookie");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            return bearerToken.substring(7);
+        //bearerToken
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("accessToken=Bearer")) {
+            String refreshToken = bearerToken.substring(bearerToken.indexOf("refreshToken=Bearer")+19);
+            String accessToken = bearerToken.substring(18,bearerToken.indexOf("refreshToken"));
+            log.info(refreshToken);
+            log.info(accessToken);
+            return accessToken;
         }
         return null;
     }

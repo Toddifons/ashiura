@@ -47,18 +47,29 @@ public class AuthController {
         //토큰 발급
         TokenInfo tokenInfo = userService.userLogin(userLoginRequestXML);
         //쿠키 생성
-        ResponseCookie cookie = ResponseCookie.from(tokenInfo.getGrantType(), tokenInfo.getAccessToken())
-                .maxAge(3600)
-                .path("/")
-                .secure(false) // ture = url이 https가 아니면 쿠키 저장안하는 기능, 실제 배포시에는 https를 써서 데이터 암호화를 해야 보안이슈가 생길 가능성이 없다
-                .sameSite("Lax") //서드파티 보안문제
-                .httpOnly(true) // ture = JS가 읽어내지 못하게함,  CSS취약점 문제해결
-                .build();
+        ResponseCookie accessTokenCookie = ResponseCookie.from(
+                "accessToken",tokenInfo.getGrantType() + tokenInfo.getAccessToken())
+                        .maxAge(3600) //쿠키 수명 (1 = 1초)
+                        .path("/") //발급될 URI
+                        .secure(false) // ture = url이 https가 아니면 쿠키 저장안하는 기능, 실제 배포시에는 https를 써서 데이터 암호화를 해야 보안이슈가 생길 가능성이 없다
+                        .sameSite("Lax") //서드파티 보안문제
+                        .httpOnly(true) // ture = JS가 읽어내지 못하게함,  CSS취약점 문제해결
+                        .build();
+        ResponseCookie refreshTokenCookie = ResponseCookie.from(
+                "refreshToken",tokenInfo.getGrantType() + tokenInfo.getRefreshToken())
+                        .maxAge(7200)
+                        .path("/")
+                        .secure(false)
+                        .sameSite("Lax")
+                        .httpOnly(true)
+                        .build();
 
         model.addAttribute("waitCheck","1");
 
-        log.info(cookie.toString());
-        response.addHeader("Set-Cookie",cookie.toString());
+        log.info(accessTokenCookie.toString());
+        log.info(refreshTokenCookie.toString());
+        response.addHeader("Set-Cookie",accessTokenCookie.toString());
+        response.addHeader("Set-Cookie",refreshTokenCookie.toString());
         //쿠키로 로그인적용을 위한 임시 페이지
         return "/justwait";
     }
@@ -69,6 +80,6 @@ public class AuthController {
         log.info("UsDo: {}", userSignupRequestDTO.toString());
         log.info("save: {}", userService.userSave(userSignupRequestDTO));
 
-        return "/auth/loginForm";
+        return "/auth/loginPage";
     }
 }

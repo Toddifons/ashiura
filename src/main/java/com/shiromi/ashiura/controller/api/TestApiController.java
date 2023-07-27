@@ -78,5 +78,4 @@ public class TestApiController {
         webClientTestService.reRollPredictionPost(idx,declaration,text);
         return null;
     }
-
 }

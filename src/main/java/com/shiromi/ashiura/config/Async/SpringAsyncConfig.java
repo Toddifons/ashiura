@@ -1,7 +1,7 @@
 package com.shiromi.ashiura.config.Async;
 
 
-import com.shiromi.ashiura.exception.AsyncExceptionHandler;
+import com.shiromi.ashiura.handler.AsyncExceptionHandler;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

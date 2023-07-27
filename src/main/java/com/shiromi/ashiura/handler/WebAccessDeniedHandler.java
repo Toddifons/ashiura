@@ -1,7 +1,6 @@
-package com.shiromi.ashiura.exception;
+package com.shiromi.ashiura.handler;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -26,7 +25,7 @@ public class WebAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpStatus.FORBIDDEN.value());
 
         if(accessDeniedException != null) {
-            log.info("403");
+            log.info("Role 403");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if(authentication != null &&
                     ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
@@ -38,14 +37,10 @@ public class WebAccessDeniedHandler implements AccessDeniedHandler {
                 request.setAttribute("msg","you do not have access_U");
                 request.setAttribute("nextPage","/");
             }
-//            if (authentication != null &&
-//                    ((User) authentication.getPrincipal()).getAuthorities().contains(new SimpleGrantedAuthority("ROLE_"))) {
-//                request.setAttribute("msg", "you do not have access");
-//                request.setAttribute("nextPage", "/auth/loginForm");
-//            }
+
             else {
                 request.setAttribute("msg","you shall not pass");
-                request.setAttribute("nextPage","/auth/loginForm");
+                request.setAttribute("nextPage","/auth/loginPage");
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 SecurityContextHolder.clearContext();
             }
