@@ -64,20 +64,6 @@ public class WebClientTestService {
                 );
 
     }
-//        Mono<ReRollResultResponseDTO> reRollResult = WebClient.create().get()
-//                .uri()
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchangeToMono()
-//                .flatMap(response ->{
-//                    if(response.satusCode().equals(HttpStatus.OK)){
-//                        return response.bodyToMono(ReRollResultResponseDTO.class);
-//                    } else {
-//                        return Mono.empty();
-//                    }
-//                });
-//        reRollResult.subscribe(result -> callback(result));
-
-
         public URI uriPy(String mapping, Long var1, String var2) {
             return UriComponentsBuilder
                     .fromUriString(urlPy)
@@ -95,4 +81,4 @@ public class WebClientTestService {
                 .toUri();
     }
 
-    }
+}

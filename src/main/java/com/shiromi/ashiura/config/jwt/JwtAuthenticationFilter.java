@@ -40,8 +40,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("accessToken=Bearer")) {
             String refreshToken = bearerToken.substring(bearerToken.indexOf("refreshToken=Bearer")+19);
             String accessToken = bearerToken.substring(18,bearerToken.indexOf("refreshToken"));
-            log.info(refreshToken);
-            log.info(accessToken);
+//            log.info(refreshToken);
+//            log.info(accessToken);
             return accessToken;
         }
         return null;

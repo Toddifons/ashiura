@@ -25,34 +25,26 @@ public class WebSecurityConfigure {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.httpBasic().disable()
-                .csrf(csrf -> csrf.disable())
+        return http.httpBasic().disable() //스프링 시큐리티 기본 페이지 비활성
+                .csrf(csrf -> csrf.disable()) //CSRF를 이용한 공격 방지, post put method에 적용
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/view/**","/test/**","api/**").hasRole("N") //해당 권한을 가진 경우
-//                .antMatchers().hasRole("Y")
-                .antMatchers("/view/**").hasRole("USER")
-//                .antMatchers("/","/err/**","/auth/**","/justwait","/img/**","test/**").permitAll() //권한 유무따지지 않고 모두 접근
-                .antMatchers("/**").permitAll()
+                .antMatchers("/view/**").hasAnyRole("ADMIN","USER") // "/view/**" 아래에 "ADMIN","USER"의 권한중 둘중 하나라도 가졌다면 승인
+                .antMatchers("/**").permitAll() //모든 사용자 모든 URI 승인
                 .anyRequest().authenticated()
                 .and()
-//                .formLogin()
-//                .loginPage("auth/loginPage")
-//                .loginProcessingUrl("auth/loginForm")
-//                .defaultSuccessUrl("/")
-//                .and()
                 .exceptionHandling()
-                .accessDeniedHandler(webAccessDeniedHandler)
-                .authenticationEntryPoint(webAuthenticationEntryPoint)
+                .accessDeniedHandler(webAccessDeniedHandler) //403에 대한 핸들링
+                .authenticationEntryPoint(webAuthenticationEntryPoint) //401에 대한 핸들링
                 .and()
                 .logout()
-                .logoutUrl("/auth/logout")
-                .clearAuthentication(true)
-                .deleteCookies("Bearer")
-                .logoutSuccessUrl("/auth/loginPage")
+                .logoutUrl("/auth/logout") //로그아웃이 실행될 주소
+                .clearAuthentication(true) //인증정보 휘발
+                .deleteCookies("accessToken","refreshToken") //해당 이름의 쿠키를 삭제
+                .logoutSuccessUrl("/auth/loginPage") // 로그아웃 후 돌아올 장소
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class) //JWT를 필터에 적용
                 .build();
     }
 }

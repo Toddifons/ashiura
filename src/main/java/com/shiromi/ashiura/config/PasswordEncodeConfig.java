@@ -13,9 +13,5 @@ public class PasswordEncodeConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-//	@Bean
-//	public PasswordEncoder passwordEncoder() {
-//		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//	}
-
+	//순환 참조 방지
 }

@@ -45,6 +45,9 @@ public class VoiceDataService {
     public List<VoiceDataEntity> findByIdxAll(Long idx) {
         return voiceDataRepository.findByIdxAll(idx);
     }
-
+    public VoiceDataEntity findById(Long id) {
+        return voiceDataRepository.findById(id)
+                .orElseThrow(IllegalAccessError::new);
+    }
 
 }

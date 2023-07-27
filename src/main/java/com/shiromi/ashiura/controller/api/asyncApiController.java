@@ -22,10 +22,8 @@ import java.io.IOException;
 @RequestMapping("/api")
 public class asyncApiController {
 
-    private final WebClientFileService webClientFileService;
     private final LoadingService loadingService;
-    private final UserService userService;
-
+    //주소와 포트넘버
     @Value("${url.api}")
     private String urlApi;
 

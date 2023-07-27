@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 public class AppAuthApiController {
-    private final UserService userService;
 
+    private final UserService userService;
+    //주소와 포트넘버
     @Value("${url.api}")
     private String urlApi;
 

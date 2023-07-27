@@ -80,8 +80,9 @@ public class UserService {
                 .orElseThrow(IllegalAccessError::new);
     }
 
-//    public List<UserEntity> findByAll() {
-//        return userRepository.findAll();
-//    }
+    public UserEntity findByIdx(Long idx) {
+        return userRepository.findByIdx(idx)
+                .orElseThrow(IllegalAccessError::new);
+    }
 
 }
