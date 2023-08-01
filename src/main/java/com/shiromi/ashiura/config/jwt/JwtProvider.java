@@ -28,9 +28,9 @@ public class JwtProvider {
 
     private final Key key;
 
-    public JwtProvider(@Value("${jwt.key}") String secretKey) {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+    public JwtProvider(@Value("${jwt.key}") String secretKey) { // 커스텀 시크릿키
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey); // base64 암호화
+        this.key = Keys.hmacShaKeyFor(keyBytes); // hmacShaKey
     }
 
     // 유저 정보를 가지고 AccessToken, RefreshToken을 생성하는 메소드
@@ -41,18 +41,17 @@ public class JwtProvider {
 
         long now =(new Date()).getTime();
 
-        Date accessTokenExpiresIn = new Date(now + 3600000);
         String accessToken = Jwts.builder()
                 .setHeaderParam("typ","JWT")
                 .setSubject(authentication.getName())
                 .claim("auth",authorities)
-                .setExpiration(accessTokenExpiresIn)
+                .setExpiration(new Date(now + 3600000)) //1시간
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         String refreshToken = Jwts.builder()
                 .setHeaderParam("typ","JWT")
-                .setExpiration(new Date(now + 259200000))
+                .setExpiration(new Date(now + 259200000)) //3일
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

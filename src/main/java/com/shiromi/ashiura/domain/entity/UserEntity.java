@@ -35,7 +35,7 @@ public class UserEntity implements UserDetails {
     @Column(name= "username", nullable = false)
     private String name;
 
-    @Column(name= "phoneNumber", nullable = false, length = 50)
+    @Column(name= "phone_number", nullable = false, length = 50)
     private String phoneNumber;
 
     @Column(name = "role",nullable = false)
@@ -46,6 +46,9 @@ public class UserEntity implements UserDetails {
 
     @Column
     private String providerId;
+
+    @Column(name = "email")
+    private String email;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

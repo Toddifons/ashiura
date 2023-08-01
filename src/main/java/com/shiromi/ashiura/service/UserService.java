@@ -36,10 +36,11 @@ public class UserService {
     public TokenInfo userLogin(UserLoginRequestDTO userLogin) {
         //1. Login ID/PW 를 기반으로 Authentication 객체 생성
         //이때 authentication는 인증 여부를 확인하는 authenticated 값이 false
+        //UsernamePasswordAuthenticationToken(Object principal, Object credentials)
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLogin.getUserName(), userLogin.getPassword());
         //2. 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
-        //aeuthenticate 메서드가 실행될 때 CustomUserDetailsServic에서 만든 loadUserByUsername 메서드가 실행
+        //aeuthenticate 메서드가 실행될 때 CustomUserDetailsService에서 오버라이드한 loadUserByUsername 메서드가 실행
         Authentication authentication =
                 authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         //3. 인증 정보를 기반으로 JWT 토큰 생성

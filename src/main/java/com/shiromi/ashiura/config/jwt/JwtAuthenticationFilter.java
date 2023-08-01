@@ -27,7 +27,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
         // 2. validateToken 으로 토큰 유효성 검사
         if (token != null && jwtProvider.validateToken(token)) {
-            //토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
             Authentication authentication = jwtProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -36,12 +35,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     // Request Header 에서 토큰 정보 추출
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Cookie");
-        //bearerToken
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("accessToken=Bearer")) {
             String refreshToken = bearerToken.substring(bearerToken.indexOf("refreshToken=Bearer")+19);
             String accessToken = bearerToken.substring(18,bearerToken.indexOf("refreshToken"));
-//            log.info(refreshToken);
-//            log.info(accessToken);
             return accessToken;
         }
         return null;

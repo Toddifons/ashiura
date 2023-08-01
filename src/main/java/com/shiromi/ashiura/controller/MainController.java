@@ -90,7 +90,7 @@ public class MainController {
     }
 
     //신고 후 로딩페이지
-    @PostMapping("/api/VoiClaReq")
+    @PostMapping("/api/VoiClaReq/view")
     public String VoiClaReq(
             @RequestParam("file") MultipartFile file,
             @RequestParam("userName") String userName,
