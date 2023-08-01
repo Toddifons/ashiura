@@ -31,7 +31,7 @@ public class asyncApiController {
     private String urlApi;
 
     //앱으로 신고된경우 ResponseEntity를 반환
-    @PostMapping("/api/VoiClaReq")
+    @PostMapping("/VoiClaReq")
     public ResponseEntity<?> VoiClaReq(
             @RequestParam("file") MultipartFile file,
             @RequestParam("userName") String userName,
