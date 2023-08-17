@@ -62,11 +62,13 @@ public class asyncApiController {
     //app이 DTO객체를 get하는 메소드를 호출하는 맵핑
     @GetMapping("/VoiClaReq")
     public ResponseEntity<?> loading() throws InterruptedException {
-        log.info("Get: {}", urlApi + "/api/loading");
+
         String result = loadingService.showLoading();
         if (result != null){
+            log.info("GetY: {}", urlApi + "/api/VoiClaReq");
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
+        log.info("GetN: {}", urlApi + "/api/VoiClaReq");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

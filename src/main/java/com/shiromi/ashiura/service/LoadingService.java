@@ -24,7 +24,7 @@ public class LoadingService {
         log.info("progress: {},{},{}",
                 resultDTO.getProgress(), resultDTO.getVoiceResult(), resultDTO.getMfccResult());
         if (resultDTO.getProgress().equals("100%")) {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         }
     }
 
@@ -35,7 +35,6 @@ public class LoadingService {
                 return resultDTO.getVoiceResult();
             }
         }
-        Thread.sleep(2400);
         return null;
     }
 
